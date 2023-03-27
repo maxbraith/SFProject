@@ -5,11 +5,10 @@
 Names:
 << add 3-4 names here >>
 Emmett Barry
-Link to UML Use Case Diagram:
-<< add linkk here >>
+Yash Mohod
 
-Link to UML Class Diagram:
-<< add link here >>
+All Diagrams:
+https://drive.google.com/file/d/1QbeVYMYV4aEcJL1MbtvemgIvg0QWqdm2/view?usp=sharing
 
 Three Use Cases that you will implement first:
 1. -
