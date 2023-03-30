@@ -7,6 +7,8 @@ Names:
 Emmett Barry
 Yash Mohod
 
+Sprint 1 Goal:  Allow users to log into the library and check out books
+
 All Diagrams:
 https://drive.google.com/file/d/1QbeVYMYV4aEcJL1MbtvemgIvg0QWqdm2/view?usp=sharing
 
