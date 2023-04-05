@@ -2,7 +2,6 @@ package Library;
 
 
 import java.io.BufferedReader;
-
 import java.io.FileNotFoundException;
 
 import java.io.FileReader;
@@ -25,11 +24,11 @@ import Library.Book.Book;
 import Library.Users.parentUser;
 
 public class Library {
-    public ArrayList<parentUser> students;
-    public ArrayList<parentUser> librarians;
-    public ArrayList<parentUser> faculty;
-    public ArrayList<Book> books;
-    public ArrayList<Book> checkedOutBooksRequests;
+    public static ArrayList<parentUser> students;
+    public static ArrayList<parentUser> librarians;
+    public static ArrayList<parentUser> faculty;
+    public static ArrayList<Book> books;
+    public static ArrayList<Book> checkedOutBooksRequests;
 
     public Library(){
         students = new ArrayList<parentUser>();
@@ -37,29 +36,40 @@ public class Library {
         faculty = new ArrayList<parentUser>();
         books = new ArrayList<Book>();
 
-        checkedOutBooks = new ArrayList<Book>();
+        checkedOutBooksRequests = new ArrayList<Book>();
     }
 
-    /*
-     * Function that reads in books to our book list
-     */
-    public void firstPopulateBooks() throws CsvValidationException, IOException{
-        FileReader file = new FileReader("books_1.Best_Books_Ever.csv");
-        CSVReaderHeaderAware reader = new CSVReaderHeaderAware(file);
-        for(int i=0; i<10; i++){
-            Map<String, String> values = reader.readMap();
-            System.out.println(values.get("title"));
-            int id = i;
-            String title = values.get("title");
-            String author = values.get("author");
-            String x = values.get("isbn");
-            Long isbn = Long.parseLong(x);
-            boolean takenOut = false;
-            LocalDate returnDate = LocalDate.of(2023, 4, 1);;
-            Book myBook = new Book(id, title, author, isbn, takenOut, returnDate);
-            books.add(myBook);
-        }
+    public static void main(String[] args) throws CsvValidationException, IOException {
+        students = new ArrayList<parentUser>();
+        librarians = new ArrayList<parentUser>();
+        faculty = new ArrayList<parentUser>();
+        books = new ArrayList<Book>();
+
+        checkedOutBooksRequests = new ArrayList<Book>();
+        initalizer();
     }
+
+
+    // /*
+    //  * Function that reads in books to our book list
+    //  */
+    // public void firstPopulateBooks() throws CsvValidationException, IOException{
+    //     FileReader file = new FileReader("books_1.Best_Books_Ever.csv");
+    //     CSVReaderHeaderAware reader = new CSVReaderHeaderAware(file);
+    //     for(int i=0; i<10; i++){
+    //         Map<String, String> values = reader.readMap();
+    //         System.out.println(values.get("title"));
+    //         int id = i;
+    //         String title = values.get("title");
+    //         String author = values.get("author");
+    //         String x = values.get("isbn");
+    //         Long isbn = Long.parseLong(x);
+    //         boolean takenOut = false;
+    //         LocalDate returnDate = LocalDate.of(2023, 4, 1);;
+    //         Book myBook = new Book(id, title, author, isbn, takenOut, returnDate);
+    //         books.add(myBook);
+    //     }
+    // }
 
     /*
      * This function to be used at the end of main when the app shuts down
@@ -131,16 +141,22 @@ public class Library {
      * @throws CsvValidationException
      * @post intializes an account into the library database
      */
-    public void initalizer() throws IOException, CsvValidationException{
+    public static void initalizer() throws IOException, CsvValidationException{
         String line = "";  
         String splitBy = ",";  
-        BufferedReader br = new BufferedReader(new FileReader("bookDataFiltered.csv")); 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+        BufferedReader br = new BufferedReader(new FileReader("src\\main\\java\\Library\\Data\\bookDataFiltered.csv")); 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         while ((line = br.readLine()) != null){  
             String[] temp = line.split(splitBy);
-            Book tempBook = new Book(Integer.parseInt(temp[0]),temp[1],temp[2],Long. parseLong(temp[3]),Boolean.parseBoolean(temp[4]),LocalDate.parse(temp[5], formatter));
+            String temp2 = "01/01/0001";
+            if(!temp[5].equals("null")){
+                temp2 = temp[5];
+            }
+
+            Book tempBook = new Book(temp[0],temp[1],temp[2],temp[3],Boolean.parseBoolean(temp[4]),LocalDate.parse(temp2, formatter));
             books.add(tempBook);
         }  
+        
     }
 
 }

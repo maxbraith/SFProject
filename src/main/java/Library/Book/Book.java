@@ -3,16 +3,16 @@ package Library.Book;
 import java.time.LocalDate;
 
 public class Book implements java.io.Serializable {
-    int id;
+    String id;
     String title;
     String author;
-    Long isbn;
+    String isbn;
     boolean takenOut;
     LocalDate returnDate;
     
 
-    public Book(int id, String title, String author, 
-    Long isbn, boolean takenOut, LocalDate returnDate){
+    public Book(String id, String title, String author, 
+    String isbn, boolean takenOut, LocalDate returnDate){
         this.id = id;
         this.title = title;
         this.author = author;
@@ -32,10 +32,10 @@ public class Book implements java.io.Serializable {
     public String getAuthor() {
         return author;
     }
-    public int getId() {
+    public String getId() {
         return id;
     }
-    public Long getIsbn() {
+    public String getIsbn() {
         return isbn;
     }
     public LocalDate getReturnDate() {
@@ -44,10 +44,10 @@ public class Book implements java.io.Serializable {
     public void setAuthor(String author) {
         this.author = author;
     }
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
-    public void setIsbn(Long isbn) {
+    public void setIsbn(String isbn) {
         this.isbn = isbn;
     }
     public void setReturnDate(LocalDate returnDate) {

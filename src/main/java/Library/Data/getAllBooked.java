@@ -30,25 +30,25 @@ public class getAllBooked {
         String line = "";  
         String splitBy = ",";  
         LinkedList<String[]> test = new LinkedList<String[]>();
-        BufferedReader br = new BufferedReader(new FileReader("bookDataFiltered.csv")); 
+        BufferedReader br = new BufferedReader(new FileReader("bookData.csv")); 
         while ((line = br.readLine()) != null){  
             test.push(line.split(splitBy));
         }  
 
-
-        for(String elem:test.get(1)){
-            System.out.print(elem+"\t");
-        }
-
-
-
-        // FileWriter myWriter = new FileWriter("bookDataFiltered.csv");
-        // for(String[] book: test){
-        //     String uuid = UUID.randomUUID().toString();
-
-        //     myWriter.write(uuid+","+book[0]+","+book[1]+","+book[2]+","+"false,null\n");
+        // System.out.println(test.get(1).length);
+        // for(String elem:test.get(1)){
+        //     System.out.print(elem+"\t");
         // }
-        // myWriter.close();
+
+
+
+        FileWriter myWriter = new FileWriter("bookDataFiltered.csv");
+        for(String[] book: test){
+            String uuid = UUID.randomUUID().toString();
+
+            myWriter.write(uuid+","+book[0]+","+book[1]+","+book[2]+","+"false,null\n");
+        }
+        myWriter.close();
 
 
 
