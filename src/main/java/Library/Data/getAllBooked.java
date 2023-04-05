@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.UUID;
 
 // import Library.Book.Book;
 
@@ -18,9 +19,9 @@ public class getAllBooked {
         
         // List<Book> Books = new LinkedList<Book>();
 
-        FileWriter myWriter = new FileWriter("bookData.csv");
-        myWriter.write("id,bookName,author,published");
-        myWriter.close();
+        // FileWriter myWriter = new FileWriter("bookData.csv");
+        // myWriter.write("id,bookName,author,published");
+        // myWriter.close();
         
 
 
@@ -29,15 +30,25 @@ public class getAllBooked {
         String line = "";  
         String splitBy = ",";  
         LinkedList<String[]> test = new LinkedList<String[]>();
-        BufferedReader br = new BufferedReader(new FileReader("bookData.csv")); 
+        BufferedReader br = new BufferedReader(new FileReader("bookDataFiltered.csv")); 
         while ((line = br.readLine()) != null){  
             test.push(line.split(splitBy));
         }  
 
 
-        for(String text: test.get(0)){
-            System.out.print(text+"\t");
+        for(String elem:test.get(1)){
+            System.out.print(elem+"\t");
         }
+
+
+
+        // FileWriter myWriter = new FileWriter("bookDataFiltered.csv");
+        // for(String[] book: test){
+        //     String uuid = UUID.randomUUID().toString();
+
+        //     myWriter.write(uuid+","+book[0]+","+book[1]+","+book[2]+","+"false,null\n");
+        // }
+        // myWriter.close();
 
 
 
@@ -54,7 +65,7 @@ public class getAllBooked {
     }
 
     void getAllBooks(){
-        
+
     }
 
 
