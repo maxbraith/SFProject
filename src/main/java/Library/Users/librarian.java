@@ -31,8 +31,8 @@ public class librarian extends parentUser{
     public void confirmRequestCheckout(int bookId){
         int accountID = Library.requestList.get(bookId);
         Book bookToCheckout = Library.books.get(bookId);
-        Library.books.remove(id);
-        Library.checkedOutBooks.put(id, bookToCheckout);
+        Library.books.remove(bookId);
+        Library.checkedOutBooks.put(bookId, bookToCheckout);
         bookToCheckout.setAccount(accountID);
         bookToCheckout.setTakenOut(true);
 
