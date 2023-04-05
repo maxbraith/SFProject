@@ -1,5 +1,9 @@
 package Library.Users;
 
+import java.util.ArrayList;
+
+import Library.Library;
+
 public class student extends parentUser{
 
     public student(int id, String email, String password, int grade){
@@ -15,6 +19,10 @@ public class student extends parentUser{
 
     public String[] getAssignedBooks(){
         return null;
+    }
+
+    public void requestBook(int id){
+        Library.requestList.put(id, this.id);
     }
 
     
