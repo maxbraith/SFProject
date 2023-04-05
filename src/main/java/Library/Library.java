@@ -1,13 +1,20 @@
 package Library;
 
+
+import java.io.BufferedReader;
+
 import java.io.FileNotFoundException;
 
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
+
 import java.util.List;
+
+import java.util.LinkedList;
 
 import java.util.Map;
 
@@ -22,13 +29,14 @@ public class Library {
     public ArrayList<parentUser> librarians;
     public ArrayList<parentUser> faculty;
     public ArrayList<Book> books;
-    public ArrayList<Book> checkedOutBooks;
+    public ArrayList<Book> checkedOutBooksRequests;
 
     public Library(){
         students = new ArrayList<parentUser>();
         librarians = new ArrayList<parentUser>();
         faculty = new ArrayList<parentUser>();
         books = new ArrayList<Book>();
+
         checkedOutBooks = new ArrayList<Book>();
     }
 
@@ -67,6 +75,9 @@ public class Library {
      * and enters it into our bookList
      */
     public void readBooksFromTxt(){
+
+        checkedOutBooksRequests = new ArrayList<Book>();
+
 
     }
 
@@ -121,21 +132,15 @@ public class Library {
      * @post intializes an account into the library database
      */
     public void initalizer() throws IOException, CsvValidationException{
-        FileReader file = new FileReader("books_1.Best_Books_Ever.csv");
-        CSVReaderHeaderAware reader = new CSVReaderHeaderAware(file);
-        for(int i=0; i<10; i++){
-            Map<String, String> values = reader.readMap();
-            System.out.println(values.get("title"));
-            int id = i;
-            String title = values.get("title");
-            String author = values.get("author");
-            String x = values.get("isbn");
-            Long isbn = Long.parseLong(x);
-            boolean takenOu = false;
-            LocalDate returnDate = LocalDate.of(2023, 4, 1);;
-            Book myBook = new Book(id, title, author, isbn, takenOu, returnDate);
-            books.add(myBook);
-        }
+        String line = "";  
+        String splitBy = ",";  
+        BufferedReader br = new BufferedReader(new FileReader("bookDataFiltered.csv")); 
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d/MM/yyyy");
+        while ((line = br.readLine()) != null){  
+            String[] temp = line.split(splitBy);
+            Book tempBook = new Book(Integer.parseInt(temp[0]),temp[1],temp[2],Long. parseLong(temp[3]),Boolean.parseBoolean(temp[4]),LocalDate.parse(temp[5], formatter));
+            books.add(tempBook);
+        }  
     }
 
 }
