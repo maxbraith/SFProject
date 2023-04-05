@@ -2,7 +2,7 @@ package Library.Book;
 
 import java.time.LocalDate;
 
-public class Book {
+public class Book implements java.io.Serializable {
     int id;
     String title;
     String author;
