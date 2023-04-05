@@ -1,6 +1,10 @@
 package Library.Users;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import Library.Library;
+import Library.Book.Book;
 
 public class librarian extends parentUser{
 
@@ -18,7 +22,19 @@ public class librarian extends parentUser{
     public void makeAccount(){
 
     }
-    public void checkOutBook(String bookId, parentUser acc, List Books ){
+
+    /**
+     * @post checks out a book if the book exists in the request list
+     * @param bookId - ID of book
+     * NOTE: Does not have a handler for if key does not exist
+     */
+    public void confirmRequestCheckout(int bookId){
+        int accountID = Library.requestList.get(bookId);
+        Book bookToCheckout = Library.books.get(bookId);
+        Library.books.remove(bookId);
+        Library.checkedOutBooks.put(bookId, bookToCheckout);
+        bookToCheckout.setAccount(accountID);
+        bookToCheckout.setTakenOut(true);
 
     }
 

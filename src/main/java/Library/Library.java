@@ -6,6 +6,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import com.opencsv.CSVReaderHeaderAware;
@@ -15,18 +16,16 @@ import Library.Book.Book;
 import Library.Users.parentUser;
 
 public class Library {
-    public ArrayList<parentUser> students;
-    public ArrayList<parentUser> librarians;
-    public ArrayList<parentUser> faculty;
-    public ArrayList<Book> books;
-    public ArrayList<Book> checkedOutBooks;
+    public HashMap<String, parentUser> accounts;
+    public static HashMap<Integer, Book> books;
+    public static HashMap<Integer, Book> checkedOutBooks;
+    public static HashMap<Integer, Integer> requestList;
 
     public Library(){
-        students = new ArrayList<parentUser>();
-        librarians = new ArrayList<parentUser>();
-        faculty = new ArrayList<parentUser>();
-        books = new ArrayList<Book>();
-        checkedOutBooks = new ArrayList<Book>();
+        accounts = new HashMap<String, parentUser>();
+        books = new HashMap<Integer, Book>();
+        checkedOutBooks = new HashMap<Integer, Book>();
+        requestList = new HashMap<Integer, Integer>();
 
     }
 
@@ -36,44 +35,19 @@ public class Library {
      * @param password - password associated with account
      * @return true if account exists, false if not
      */
-    public boolean facultyLogIn(String email, String password){
-        for(int i=0; i<faculty.size(); i++){
-            if(faculty.get(i).getEmail() == email && faculty.get(i).getPassword() == password){
+    public boolean logIn(String email, String password){
+        parentUser account = accounts.get(email);
+        if(account != null){
+            if(account.checkPassword(password)==true){
                 return true;
             }
         }
         return false;
+
+
+        
     }
 
-    /**
-     * @post confirms credentials of librarian
-     * @param email - email associated with account
-     * @param passoword - password associated with account
-     * @return true if account exists, false if not
-     */
-    public boolean librarianLogIn(String email, String password){
-        for(int i=0; i<librarians.size(); i++){
-            if(librarians.get(i).getEmail() == email && librarians.get(i).getPassword() == password){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * @post confirms credentials of student
-     * @param email - email associated with account
-     * @param passoword - password associated with account
-     * @return true if account exists, false if not
-     */
-    public boolean studentLogIn(String email, String password){
-        for(int i=0; i<students.size(); i++){
-            if(students.get(i).getEmail() == email && students.get(i).getPassword() == password){
-                return true;
-            }
-        }
-        return false;
-    }
 
     /**
      * @throws IOException
@@ -94,7 +68,7 @@ public class Library {
             boolean takenOu = false;
             LocalDate returnDate = LocalDate.of(2023, 4, 1);;
             Book myBook = new Book(id, title, author, isbn, takenOu, returnDate);
-            books.add(myBook);
+            books.put(myBook.getId(), myBook);
         }
     }
 
