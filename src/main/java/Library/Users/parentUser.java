@@ -2,16 +2,21 @@ package Library.Users;
 
 public class parentUser {
 
-    public int ID;
+    protected int id;
+    protected String email;
+    protected String password;
+    protected int grade;
 
-
-    public int getID(){
-        return ID;
+    public void parentUser(int id, String email, String password, int grade) throws IllegalArgumentException{
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.grade = grade;
     }
 
-    private String email;
-    private String password;
-
+    public int getID(){
+        return id;
+    }
 
     public String getEmail(){
         return email;

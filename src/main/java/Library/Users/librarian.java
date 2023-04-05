@@ -2,12 +2,18 @@ package Library.Users;
 
 import java.util.List;
 
-public class librarian {
+public class librarian extends parentUser{
+
+    public librarian(int id, String email, String password, int grade){
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.grade = grade;
+    }
+    
     public String accType(){
         return null;
     }
-
-
 
     public void makeAccount(){
 

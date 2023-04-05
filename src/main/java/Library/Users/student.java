@@ -1,11 +1,12 @@
 package Library.Users;
 
-public class student {
+public class student extends parentUser{
 
-    private String grade;
-
-    public void student(String id, String email, String password, String grade){
-
+    public student(int id, String email, String password, int grade){
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.grade = grade;
     }
 
     public String accType(){
