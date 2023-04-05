@@ -36,12 +36,25 @@ public class getAllBooked {
 
 
         for(String text: test.get(0)){
-            System.out.print(text);
+            System.out.print(text+"\t");
         }
 
 
 
 
+    }
+
+
+    void addBook(){
+
+    }
+
+    void removeBook(){
+
+    }
+
+    void getAllBooks(){
+        
     }
 
 
