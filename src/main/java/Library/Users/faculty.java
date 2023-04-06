@@ -1,6 +1,6 @@
 package Library.Users;
 
-public class faculty {
+public class faculty extends parentUser {
 
     public String accType(){
         return null;
