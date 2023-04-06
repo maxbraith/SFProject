@@ -21,6 +21,20 @@ public class librarian extends parentUser{
     
 
 
+    /**
+     * This function creates a new user account with a unique ID, hashed password, and specified
+     * account type (student, faculty, or librarian).
+     * 
+     * @param email The email address of the user creating the account.
+     * @param password The password for the user account being created.
+     * @param grade The grade parameter is an integer representing the grade level of a student or the
+     * level of faculty or librarian.
+     * @param accType The type of account being created, which can be "Student", "Faculty", or
+     * "Librarian".
+     * @param name The name of the user being created.
+     * @return The method is returning an instance of the parentUser class, which can be either a
+     * student, faculty, or librarian object depending on the value of the accType parameter.
+     */
     public static parentUser makeAccount( String email, String password, int grade, String accType, String name) throws NoSuchAlgorithmException{
         String uuid = UUID.randomUUID().toString();
         String[] hashSalt = parentUser.passwordHash(password);

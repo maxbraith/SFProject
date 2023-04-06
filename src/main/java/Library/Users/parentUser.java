@@ -13,6 +13,10 @@ import Library.Book.Book;
 
 public class parentUser {
 
+    // These are instance variables declared in the `parentUser` class with the `protected` access
+    // modifier, which means they can be accessed by any subclass of `parentUser`. They represent the
+    // attributes of a user object, such as their ID, email, password hash, grade, name, account type,
+    // and salt.
     protected String id;
     protected String email;
     protected String passwordHash;
@@ -203,11 +207,12 @@ public class parentUser {
         return  hashSalt;
     }
     // Add salt
-/**
- * The function generates a random 16-byte salt using the SHA1PRNG algorithm.
- * 
- * @return The method is returning a string representation of the byte array `rawsalt`. 
- */
+
+  /**
+   * This function generates a random 16-byte salt using the SHA1PRNG algorithm.
+   * 
+   * @return The method is returning a string representation of the byte array `rawsalt`.
+   */
     private static String getrawSalt() throws NoSuchAlgorithmException {
         SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
         byte[] rawsalt = new byte[16];

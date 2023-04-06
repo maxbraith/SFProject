@@ -35,6 +35,7 @@ public class Library {
     //     users = new HashMap<String,parentUser>();
     //     books = new ArrayList<Book>();
     //     checkedOutBooksRequests = new ArrayList<Book>();
+    // librarian.checkoutbook(bookid, books) // 
     // }
 
     /**
