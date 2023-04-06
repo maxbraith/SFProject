@@ -1,32 +1,31 @@
 package Library;
 
 
+import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import java.util.List;
 
 import java.util.LinkedList;
 
 import java.util.Map;
+import java.util.Scanner;
 
 import com.opencsv.CSVReaderHeaderAware;
 import com.opencsv.exceptions.CsvValidationException;
 
 import Library.Book.Book;
+import Library.Users.faculty;
 import Library.Users.parentUser;
 
+
 public class Library {
-
-    public static HashMap<Integer, Book> books1;
-    public static HashMap<Integer, Book> checkedOutBooks;
-    public static HashMap<Integer, Integer> requestList;
-
-
     public static HashMap<String,parentUser> users;
     public static ArrayList<Book> books;
     public static ArrayList<Book> checkedOutBooksRequests;
@@ -46,13 +45,33 @@ public class Library {
 
     }
 
-    /**
-     * @post confirms credentials of faculty
-     * @param email - email associated with account
-     * @param password - password associated with account
-     * @return true if account exists, false if not
+
+    // /*
+    //  * Function that reads in books to our book list
+    //  */
+    // public void firstPopulateBooks() throws CsvValidationException, IOException{
+    //     FileReader file = new FileReader("books_1.Best_Books_Ever.csv");
+    //     CSVReaderHeaderAware reader = new CSVReaderHeaderAware(file);
+    //     for(int i=0; i<10; i++){
+    //         Map<String, String> values = reader.readMap();
+    //         System.out.println(values.get("title"));
+    //         int id = i;
+    //         String title = values.get("title");
+    //         String author = values.get("author");
+    //         String x = values.get("isbn");
+    //         Long isbn = Long.parseLong(x);
+    //         boolean takenOut = false;
+    //         LocalDate returnDate = LocalDate.of(2023, 4, 1);;
+    //         Book myBook = new Book(id, title, author, isbn, takenOut, returnDate);
+    //         books.add(myBook);
+    //     }
+    // }
+
+    /*
+     * This function to be used at the end of main when the app shuts down
+     * reads the current book list to a text file to be used again 
+     * when the app restarts
      */
-     
     public static void writeBookstoTxt(){
 
     }
@@ -82,10 +101,11 @@ public class Library {
     }
 
 
+
+
     /**
      * @throws IOException
      * @throws CsvValidationException
-
      * @post intializes all data from the CSV files to the data structures
      */
     public static void initalizer() throws IOException, CsvValidationException{
@@ -136,5 +156,29 @@ public class Library {
             System.out.println("********************************");
         }
     }
+
+    private static void logIn(Scanner sc){
+        boolean run = true;
+
+        while(run){
+            System.out.println("********************************");
+            System.out.println("Login");
+            System.out.println("Enter Email to continue or type \"Back\" to go back:");
+            String input = sc.next();
+
+            if(input.equals("back")){
+                run = false;
+                break;
+            }
+            else{
+                
+            }
+
+
+            System.out.println("********************************");
+        }
+    }
+
+
 
 }
