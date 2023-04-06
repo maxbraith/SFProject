@@ -1,7 +1,6 @@
 package Library.Users;
 
 import java.util.ArrayList;
-
 import java.util.HashMap;
 
 import Library.Library;
@@ -9,30 +8,20 @@ import Library.Book.Book;
 
 public class student extends parentUser{
 
-
-import Library.Book.Book;
-
-
-public class student extends parentUser{
-    ArrayList<Book> assignedBooks;
     public student(int id, String email, String password, int grade){
         this.id = id;
         this.email = email;
         this.password = password;
         this.grade = grade;
-        this.accType = "Student";
-        this.assignedBooks = new ArrayList<>();
-        
     }
 
     public String accType(){
-        return this.accType;
+        return null;
     }
 
-    public ArrayList<Book> getAssignedBooks(){
-        return assignedBooks;
+    public String[] getAssignedBooks(){
+        return null;
     }
-
 
     public void requestBook(int id){
         Library.requestList.put(id, this.id);
@@ -41,5 +30,12 @@ public class student extends parentUser{
     public HashMap<Integer, Integer> getRequestedBooks() {
         return Library.requestList;
     }
+
+
+
+    
+
+    
+
     
 }
