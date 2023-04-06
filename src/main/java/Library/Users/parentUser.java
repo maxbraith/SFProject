@@ -22,14 +22,6 @@ public class parentUser {
         return email;
     }
 
-    public String getPassword(){
-        return password;
-    }
-
-    public int getGrade(){
-        return grade;
-    }
-
     public boolean checkPassword(String passwordCheck){
         return password.equals(passwordCheck);
     }

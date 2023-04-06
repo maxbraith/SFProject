@@ -1,12 +1,16 @@
 package Library.Users;
 
 import java.util.ArrayList;
+
 import java.util.HashMap;
 
 import Library.Library;
+
+
 import Library.Book.Book;
 
 public class student extends parentUser{
+    ArrayList<Book> assignedBooks;
 
     public student(int id, String email, String password, int grade){
         this.id = id;
@@ -23,6 +27,7 @@ public class student extends parentUser{
         return null;
     }
 
+
     public void requestBook(int id){
         Library.requestList.put(id, this.id);
     }
@@ -31,11 +36,6 @@ public class student extends parentUser{
         return Library.requestList;
     }
 
-
-
-    
-
-    
 
     
 }
