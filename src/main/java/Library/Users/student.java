@@ -1,5 +1,9 @@
 package Library.Users;
 
+import java.util.ArrayList;
+
+import Library.Book.Book;
+
 public class student extends parentUser{
 
 
@@ -14,9 +18,8 @@ public class student extends parentUser{
     }
 
 
-    public String[] getAssignedBooks(){
-        return null;
+    public ArrayList<Book> getAssignedBooks(){
+        return assignedBooks;
     }
-
     
 }

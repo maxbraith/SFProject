@@ -7,6 +7,10 @@ import java.security.SecureRandom;
 import de.mkammerer.argon2.Argon2;
 import de.mkammerer.argon2.Argon2Factory;
 
+import java.util.ArrayList;
+
+import Library.Book.Book;
+
 public class parentUser {
 
     protected String id;
@@ -211,5 +215,13 @@ public class parentUser {
         return rawsalt.toString();
     }
     
+    public void updateBookList(){
+
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
 
 }
