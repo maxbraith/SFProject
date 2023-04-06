@@ -10,6 +10,7 @@ public class faculty extends parentUser{
     }
     
 
+
     public String accType(){
         return null;
     }
