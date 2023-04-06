@@ -215,13 +215,7 @@ public class parentUser {
         return rawsalt.toString();
     }
     
-    public void updateBookList(){
 
-    }
-
-    public String getPassword() {
-        return password;
-    }
 
 
 }
