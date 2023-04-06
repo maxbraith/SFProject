@@ -1,21 +1,27 @@
 package Library.Users;
 
-public class student extends parentUser{
+import java.util.ArrayList;
 
+import Library.Book.Book;
+
+public class student extends parentUser{
+    ArrayList<Book> assignedBooks;
     public student(int id, String email, String password, int grade){
         this.id = id;
         this.email = email;
         this.password = password;
         this.grade = grade;
+        this.accType = "Student";
+        this.assignedBooks = new ArrayList<>();
+        
     }
 
     public String accType(){
-        return null;
+        return this.accType;
     }
 
-    public String[] getAssignedBooks(){
-        return null;
+    public ArrayList<Book> getAssignedBooks(){
+        return assignedBooks;
     }
-
     
 }

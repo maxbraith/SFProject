@@ -27,7 +27,7 @@ public class BookTest {
     
     @Test
     public void bookConstructorTest() throws CsvValidationException, FileNotFoundException, IOException, ClassNotFoundException{
-        FileReader file = new FileReader("books_1.Best_Books_Ever.csv");
+        FileReader file = new FileReader("bookData.csv");
         CSVReaderHeaderAware reader = new CSVReaderHeaderAware(file);
         List books = new ArrayList<Book>();
         for(int i=0; i<10; i++){
@@ -48,7 +48,7 @@ public class BookTest {
             System.out.println(books.get(i));
         }
 
-
+/*
         String path = "books.csv";
         FileOutputStream fos = new FileOutputStream(path, true);
         ObjectOutputStream oos = new ObjectOutputStream(fos);
@@ -72,7 +72,7 @@ public class BookTest {
             System.out.println(newBooks.get(i));
         }
 
-
+ */
     
     }
 
