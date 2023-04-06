@@ -2,7 +2,16 @@ package Library.Users;
 
 import java.util.ArrayList;
 
+import java.util.HashMap;
+
+import Library.Library;
 import Library.Book.Book;
+
+public class student extends parentUser{
+
+
+import Library.Book.Book;
+
 
 public class student extends parentUser{
     ArrayList<Book> assignedBooks;
@@ -22,6 +31,15 @@ public class student extends parentUser{
 
     public ArrayList<Book> getAssignedBooks(){
         return assignedBooks;
+    }
+
+
+    public void requestBook(int id){
+        Library.requestList.put(id, this.id);
+    }
+
+    public HashMap<Integer, Integer> getRequestedBooks() {
+        return Library.requestList;
     }
     
 }

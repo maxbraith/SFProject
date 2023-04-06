@@ -59,6 +59,9 @@ public class Book implements java.io.Serializable {
     public void setTitle(String title) {
         this.title = title;
     }
+
+    public void setAccount(int accountID) {
+    }
     
     
     

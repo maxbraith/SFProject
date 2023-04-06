@@ -1,6 +1,7 @@
 package Users;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -12,11 +13,16 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
+
+import Library.Library;
+import Library.Book.Book;
+
 import com.opencsv.CSVReaderHeaderAware;
 import com.opencsv.exceptions.CsvValidationException;
 
 import Library.Book.Book;
 import Library.Users.faculty;
+
 import Library.Users.librarian;
 import Library.Users.student;
 
@@ -32,6 +38,9 @@ public class librarianAccoutTest {
 
     @Test
     void getID(){
+
+        librarian  libAcc = new librarian(45, "a@b.com", "abc123", 5);
+        assertEquals(45, libAcc.getID());
         librarian  libAcc = new librarian(1, "a@b.com", "abc123", 5);
         assertEquals(1, libAcc.getID());
     }
@@ -52,6 +61,24 @@ public class librarianAccoutTest {
     }
 
     @Test 
+
+    void confirmRequestCheckoutTest(){
+
+        Library library = new Library(); // Create a new instance of the Library class
+        librarian libAcc = new librarian(1, "a@b.com", "abc123", 5);
+        student studentAcc = new student(2, "c@d.com", "def456", 10);
+        Book book = new Book(1, "The Great Gatsby", "F. Scott Fitzgerald", 9780684801520L, false, null);
+        studentAcc.requestBook(book.getId());
+        assertEquals(1, studentAcc.getRequestedBooks().size());
+        assertEquals(1, libAcc.getRequests().size()); // initial request count
+        
+        libAcc.confirmRequestCheckout(book.getId());
+        //assertEquals(0, libAcc.getRequests().size()); // request count should be 0 after confirmation
+        //assertTrue(book.getTakenOut()); // the book should be marked as taken out
+        //assertEquals(studentAcc, book.getId()); // the account should be set to the student's account
+        //assertEquals(studentAcc.getRequestedBooks().size(), 0); // student's requested book count should be 0
+        
+
     void checkOutBookTest() throws IOException, CsvValidationException{
         librarian  libAcc = new librarian(1, "a@b.com", "abc123", 5);
         student student = new student(3, "ebarry@ithaca.edu", "Valley13", 4);
@@ -74,6 +101,7 @@ public class librarianAccoutTest {
 
         Book bookOut = libAcc.checkOutBook(3, libAcc, books);
         assertEquals("Pride and Prejudice", bookOut.getTitle());
+
     }
 
 }
