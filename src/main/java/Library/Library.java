@@ -48,7 +48,7 @@ public class Library {
         // System.out.println(parentUser.passwordHash("00")[0]);
         // System.out.println(parentUser.passwordHash("00")[1]);
         initializer();
-        // StartUI();
+        StartUI();
         deInitializer();
     }
 
@@ -181,11 +181,20 @@ public class Library {
         writeUserstoTxt();
     }
 
+
+    public static void refreshData() throws IOException, NoSuchAlgorithmException{
+        writeBookstoTxt();
+        writeUserstoTxt();
+        readBooksFromTxt();
+        readUsersFromTxt();
+    }
+
     /**
      * @throws NoSuchAlgorithmException
+     * @throws IOException
      * @post Start the CLI UI loops
      */
-    private static void StartUI() throws NoSuchAlgorithmException{
+    private static void StartUI() throws NoSuchAlgorithmException, IOException{
         Scanner sc = new Scanner(System.in);
         boolean run = true;
 
@@ -217,7 +226,7 @@ public class Library {
         }
     }
 
-    private static void logIn(Scanner sc) throws NoSuchAlgorithmException{
+    private static void logIn(Scanner sc) throws NoSuchAlgorithmException, IOException{
         boolean run = true;
 
         while(run){
@@ -256,7 +265,7 @@ public class Library {
 
 
     // Main menu
-    private static void mainMenu(Scanner sc, parentUser currentuser){
+    private static void mainMenu(Scanner sc, parentUser currentuser) throws NoSuchAlgorithmException, IOException{
         boolean run = true;
 
         while(run){
@@ -297,7 +306,7 @@ public class Library {
             }
             // librarian main menu
             if(currentuser.getAccountType().equals("librarian")){
-
+                currentuser = (librarian)currentuser;
                 System.out.println("(1) Add Book");
                 System.out.println("(2) Add account");
                 System.out.println("(3) Delete Book");
@@ -309,6 +318,10 @@ public class Library {
                 int input = sc.nextInt();
 
                 switch(input){
+
+                    case 2: librarian_addAccount(sc);
+                            break;
+
                     case 7 :
                         run = false;
                         System.out.println("Logging out...");
@@ -316,6 +329,82 @@ public class Library {
                 }
 
             }
+            System.out.println("********************************");
+        }
+    }
+
+
+
+    // librarian options
+
+    // add account 
+    private static void librarian_addAccount(Scanner sc) throws NoSuchAlgorithmException, IOException{
+        boolean run = true;
+
+        while(run){
+            System.out.println("********************************");
+            System.out.println("Add Account");
+            System.out.println("Please enter all the details.");
+            System.out.println("Enter \"back\" to go back at any point.");
+
+            System.out.println("Enter Email:");
+            String email = sc.next();
+            if(email.equals("back")){run = false; break;}
+
+            System.out.println("Enter Name:");
+            String name = sc.next();
+            if(name.equals("back")){run = false; break;}
+
+            boolean passwordLoop = true;
+            String password="";
+            String password2="";
+            while(passwordLoop){
+                System.out.println("Enter password:");
+                password = sc.next();
+                if(password.equals("back")){run = false;passwordLoop=false; break;}
+                System.out.println("Re-Enter password:");
+                password2 = sc.next();
+                if(password2.equals("back")){run = false;passwordLoop=false; break;}
+                if(password.equals(password2)){passwordLoop=false; break;
+                }else{System.out.println("Password do not match!\nTry again!");}
+            }
+
+            System.out.println("Select an account type:");
+            System.out.println("(1) Student");
+            System.out.println("(2) Faculty");
+            System.out.println("(3) Librarian");
+            int accTypSelection = sc.nextInt();
+            int grade = 0;
+            if(accTypSelection == 1){
+                System.out.println("Enter the grade of the student:");
+                grade = sc.nextInt();
+            }
+
+            if(accTypSelection == 1){
+                parentUser newAcc =  librarian.makeAccount(email, password, grade,"student", name);
+                users.put(email, newAcc);
+                run = false;
+                refreshData();
+                System.out.println("Account Created!");
+                break;
+            }
+            if(accTypSelection == 2){
+                parentUser newAcc =  librarian.makeAccount(email, password, grade,"faculty", name);
+                users.put(email, newAcc);
+                run = false;
+                refreshData();
+                System.out.println("Account Created!");
+                break;
+            }
+            if(accTypSelection == 3){
+                parentUser newAcc =  librarian.makeAccount(email, password, grade,"librarian", name);
+                users.put(email, newAcc);
+                run = false;
+                refreshData();
+                System.out.println("Account Created!");
+                break;
+            }
+
             System.out.println("********************************");
         }
     }
