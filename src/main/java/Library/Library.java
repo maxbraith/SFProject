@@ -9,44 +9,38 @@ import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-
-
+import java.util.HashMap;
 import java.util.List;
 
 import java.util.LinkedList;
 
 import java.util.Map;
+import java.util.Scanner;
 
 import com.opencsv.CSVReaderHeaderAware;
 import com.opencsv.exceptions.CsvValidationException;
 
 import Library.Book.Book;
+import Library.Users.faculty;
 import Library.Users.parentUser;
 
 public class Library {
-    public static ArrayList<parentUser> students;
-    public static ArrayList<parentUser> librarians;
-    public static ArrayList<parentUser> faculty;
+    public static HashMap<String,parentUser> users;
     public static ArrayList<Book> books;
     public static ArrayList<Book> checkedOutBooksRequests;
 
-    public Library(){
-        students = new ArrayList<parentUser>();
-        librarians = new ArrayList<parentUser>();
-        faculty = new ArrayList<parentUser>();
-        books = new ArrayList<Book>();
-
-        checkedOutBooksRequests = new ArrayList<Book>();
-    }
+    // public Library(){
+    //     users = new HashMap<String,parentUser>();
+    //     books = new ArrayList<Book>();
+    //     checkedOutBooksRequests = new ArrayList<Book>();
+    // }
 
     public static void main(String[] args) throws CsvValidationException, IOException {
-        students = new ArrayList<parentUser>();
-        librarians = new ArrayList<parentUser>();
-        faculty = new ArrayList<parentUser>();
+        users = new HashMap<String,parentUser>();
         books = new ArrayList<Book>();
-
         checkedOutBooksRequests = new ArrayList<Book>();
         initalizer();
+        StartUI();
     }
 
 
@@ -76,7 +70,7 @@ public class Library {
      * reads the current book list to a text file to be used again 
      * when the app restarts
      */
-    public void readBookstoTxt(){
+    public static void writeBookstoTxt(){
 
     }
     /*
@@ -84,64 +78,8 @@ public class Library {
      * reads the old book list from the text file 
      * and enters it into our bookList
      */
-    public void readBooksFromTxt(){
+    public static void readBooksFromTxt() throws IOException{
 
-        checkedOutBooksRequests = new ArrayList<Book>();
-
-
-    }
-
-    /**
-     * @post confirms credentials of faculty
-     * @param email - email associated with account
-     * @param password - password associated with account
-     * @return true if account exists, false if not
-     */
-    public boolean facultyLogIn(String email, String password){
-        for(int i=0; i<faculty.size(); i++){
-            if(faculty.get(i).getEmail() == email && faculty.get(i).getPassword() == password){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * @post confirms credentials of librarian
-     * @param email - email associated with account
-     * @param passoword - password associated with account
-     * @return true if account exists, false if not
-     */
-    public boolean librarianLogIn(String email, String password){
-        for(int i=0; i<librarians.size(); i++){
-            if(librarians.get(i).getEmail() == email && librarians.get(i).getPassword() == password){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * @post confirms credentials of student
-     * @param email - email associated with account
-     * @param passoword - password associated with account
-     * @return true if account exists, false if not
-     */
-    public boolean studentLogIn(String email, String password){
-        for(int i=0; i<students.size(); i++){
-            if(students.get(i).getEmail() == email && students.get(i).getPassword() == password){
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * @throws IOException
-     * @throws CsvValidationException
-     * @post intializes an account into the library database
-     */
-    public static void initalizer() throws IOException, CsvValidationException{
         String line = "";  
         String splitBy = ",";  
         BufferedReader br = new BufferedReader(new FileReader("src\\main\\java\\Library\\Data\\bookDataFiltered.csv")); 
@@ -156,7 +94,89 @@ public class Library {
             Book tempBook = new Book(temp[0],temp[1],temp[2],temp[3],Boolean.parseBoolean(temp[4]),LocalDate.parse(temp2, formatter));
             books.add(tempBook);
         }  
-        
+
+
     }
+
+
+
+
+    /**
+     * @throws IOException
+     * @throws CsvValidationException
+     * @post intializes all data from the CSV files to the data structures
+     */
+    public static void initalizer() throws IOException, CsvValidationException{
+        
+        readBooksFromTxt();
+    }
+
+    /**
+     * @throws IOException
+     * @throws CsvValidationException
+     * @post writes all the data from the data structures to the CSV files
+     */
+    public static void deInitalizer() throws IOException, CsvValidationException{
+        
+        writeBookstoTxt();
+    }
+
+    /**
+     * @post Start the CLI UI loops
+     */
+    private static void StartUI(){
+        Scanner sc = new Scanner(System.in);
+        boolean run = true;
+
+        while(run){
+            System.out.println("********************************");
+            System.out.println("Welcome to the Library System!");
+            System.out.println("Please select an option to continue:");
+            System.out.println("(1) Login");
+            System.out.println("(2) Forgot Password");
+            System.out.println("(3) Exit");
+            System.out.println("Enter Number:");
+            int input = sc.nextInt();
+
+            switch(input){
+                case 1 :
+                    logIn(sc);
+                    break;
+                case 2 :
+                    System.out.println("********************************");
+                    System.out.println("feature work in progress!");
+                    System.out.println("********************************");
+                    break;
+                case 3 :
+                    run = false;
+                    break;
+            }
+            System.out.println("********************************");
+        }
+    }
+
+    private static void logIn(Scanner sc){
+        boolean run = true;
+
+        while(run){
+            System.out.println("********************************");
+            System.out.println("Login");
+            System.out.println("Enter Email to continue or type \"Back\" to go back:");
+            String input = sc.next();
+
+            if(input.equals("back")){
+                run = false;
+                break;
+            }
+            else{
+                
+            }
+
+
+            System.out.println("********************************");
+        }
+    }
+
+
 
 }
