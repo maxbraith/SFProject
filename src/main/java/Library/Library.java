@@ -24,7 +24,7 @@ import com.opencsv.exceptions.CsvValidationException;
 import Library.Book.Book;
 import Library.Users.parentUser;
 
-public class Library {
+public class Library extends parentUser{
     public ArrayList<parentUser> students;
     public ArrayList<parentUser> librarians;
     public ArrayList<parentUser> faculty;
@@ -37,7 +37,7 @@ public class Library {
         faculty = new ArrayList<parentUser>();
         books = new ArrayList<Book>();
 
-        checkedOutBooks = new ArrayList<Book>();
+        checkedOutBooksRequests = new ArrayList<Book>();
     }
 
     /*
