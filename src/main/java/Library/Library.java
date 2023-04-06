@@ -26,6 +26,11 @@ import Library.Users.parentUser;
 
 
 public class Library {
+    public HashMap<String, parentUser> accounts;
+    public static HashMap<Integer, Book> mapBooks;
+    public static HashMap<Integer, Book> checkedOutBooks;
+    public static HashMap<Integer, Integer> requestList;
+
     public static HashMap<String,parentUser> users;
     public static ArrayList<Book> books;
     public static ArrayList<Book> checkedOutBooksRequests;

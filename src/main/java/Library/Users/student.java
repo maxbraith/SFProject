@@ -23,5 +23,16 @@ public class student extends parentUser{
     public ArrayList<Book> getAssignedBooks(){
         return assignedBooks;
     }
+ 
+ 
+    public void requestBook(int id){
+        Library.requestList.put(id, this.id);
+    }
+ 
+ 
+    public HashMap<Integer, Integer> getRequestedBooks() {
+        return Library.requestList;
+    }
+ 
     
 }
