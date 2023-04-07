@@ -12,6 +12,9 @@ Sprint 1 Goal:  Allow users to log into the library and check out books
 All Diagrams:
 https://drive.google.com/file/d/1QbeVYMYV4aEcJL1MbtvemgIvg0QWqdm2/view?usp=sharing
 
+Sprint1 review/demo:
+https://docs.google.com/document/d/1scvTjDQCzdwVNoyNOUlcDum9getDxI7phWlymNOv2-Y/edit?usp=sharing
+
 Three Use Cases that you will implement first:
 1. -
 2. - 
