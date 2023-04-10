@@ -9,7 +9,7 @@ import Library.Library;
 
 public class student extends parentUser{
     ArrayList<Book> assignedBooks;
-    public student(int id, String email, String password, int grade){
+    public student(String id, String email, String password, int grade){
         this.id = id;
         this.email = email;
         this.password = password;
@@ -26,16 +26,20 @@ public class student extends parentUser{
     public ArrayList<Book> getAssignedBooks(){
         return assignedBooks;
     }
- 
- 
-    public void requestBook(int id){
-        Library.requestList.put(id, this.id);
+
+    public int getGrade(){
+        return grade;
     }
  
  
-    public HashMap<Integer, Integer> getRequestedBooks() {
-        return Library.requestList;
+    public void requestBook(String id){
+        String[] array = new String[2];
+        array[0] = id;
+        array[1] = this.id;
+        Library.requestList.add(array);
     }
+ 
+ 
  
     
 }

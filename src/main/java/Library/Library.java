@@ -26,14 +26,11 @@ import Library.Users.parentUser;
 
 
 public class Library {
-    public HashMap<String, parentUser> accounts;
-    public static HashMap<Integer, Book> mapBooks;
-    public static HashMap<Integer, Book> checkedOutBooks;
-    public static HashMap<Integer, Integer> requestList;
+    public static ArrayList<String[]> requestList;
 
     public static HashMap<String,parentUser> users;
     public static ArrayList<Book> books;
-    public static ArrayList<Book> checkedOutBooksRequests;
+    public static ArrayList<Book> checkedOutBooks;
 
     // public Library(){
     //     users = new HashMap<String,parentUser>();
@@ -44,7 +41,8 @@ public class Library {
     public static void main(String[] args) throws CsvValidationException, IOException {
         users = new HashMap<String,parentUser>();
         books = new ArrayList<Book>();
-        checkedOutBooksRequests = new ArrayList<Book>();
+        checkedOutBooks = new ArrayList<Book>();
+        requestList = new ArrayList<String[]>();
         initalizer();
         StartUI();
 
