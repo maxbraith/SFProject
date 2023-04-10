@@ -6,6 +6,8 @@ Names:
 << add 3-4 names here >>
 Emmett Barry
 Yash Mohod
+Max 
+Joe Guidi
 
 Sprint 1 Goal:  Allow users to log into the library and check out books
 
@@ -16,16 +18,16 @@ Sprint1 review/demo:
 https://docs.google.com/document/d/1scvTjDQCzdwVNoyNOUlcDum9getDxI7phWlymNOv2-Y/edit?usp=sharing
 
 Three Use Cases that you will implement first:
-1. -
-2. - 
-3. - 
+1. - Login 
+2. - Create Account 
+3. - Librarian 
 
 Which classes & methods do you need to implement for these use cases?
 (Indicated which team member is responsible for the implemenation)
-1. -
-2. -
-3. -
-4. -
+1. - Library - yash
+2. - User - Joe
+3. - Librarian/ student- max 
+4. - Book/ librarian - Emmett
 5. << add more as needed >>
 
 Don't forget to use Test-Driven Development (TDD)
