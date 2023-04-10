@@ -6,20 +6,20 @@ import Library.Book.Book;
 
 public class parentUser {
 
-    protected int id;
+    protected String id;
     protected String email;
     protected String password;
     protected int grade;
     protected String accType;
 
-    public void parentUser(int id, String email, String password, int grade) throws IllegalArgumentException{
+    public void parentUser(String id, String email, String password, int grade) throws IllegalArgumentException{
         this.id = id;
         this.email = email;
         this.password = password;
         this.grade = grade;
     }
 
-    public int getID(){
+    public String getID(){
         return id;
     }
 

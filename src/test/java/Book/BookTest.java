@@ -33,11 +33,11 @@ public class BookTest {
         for(int i=0; i<10; i++){
             Map<String, String> values = reader.readMap();
             System.out.println(values.get("title"));
-            int id = i;
+            String id = "" + i;
             String title = values.get("title");
             String author = values.get("author");
             String x = values.get("isbn");
-            Long isbn = Long.parseLong(x);
+            String isbn = x;
             boolean takenOut = false;
             LocalDate returnDate = LocalDate.of(2023, 4, 1);;
             Book myBook = new Book(id, title, author, isbn, takenOut, returnDate);

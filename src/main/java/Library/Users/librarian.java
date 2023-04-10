@@ -11,7 +11,7 @@ import Library.Library;
 
 public class librarian extends parentUser{
 
-    public librarian(int id, String email, String password, int grade){
+    public librarian(String id, String email, String password, int grade){
         this.id = id;
         this.email = email;
         this.password = password;
@@ -23,7 +23,7 @@ public class librarian extends parentUser{
         return accType;
     }
 
-    public parentUser makeAccount(int id, String email, String password, int grade, String accType){
+    public parentUser makeAccount(String id, String email, String password, int grade, String accType){
         if(accType.equals("Student")){
             student user = new student(id, email, password, grade);
             return user;
@@ -38,7 +38,7 @@ public class librarian extends parentUser{
         }
         
     }
-    public Book checkOutBook(int bookId, parentUser acc, ArrayList<Book> books){
+    public Book checkOutBook(String bookId, parentUser acc, ArrayList<Book> books){
         for(int i=0; i<books.size(); i++){
             Book myBook = books.get(i);
             if(bookId == myBook.getId()){
@@ -50,7 +50,7 @@ public class librarian extends parentUser{
     }
     
     
-    public HashMap<Integer, Integer> getRequests() {
+    public ArrayList<String[]> getRequests() {
         return Library.requestList;
     }
  
@@ -60,26 +60,32 @@ public class librarian extends parentUser{
      * @param bookId - ID of book
      * NOTE: Does not have a handler for if key does not exist
      */
-    public void confirmRequestCheckout(int bookId){
-        int accountID = Library.requestList.get(bookId);
-        Book bookToCheckout = Library.books.get(bookId);
+    public void confirmRequestCheckout(String bookId){
+        String accountID = null;
+        Book bookToCheckout = null;
+        int index = -1;
+        for(int i=0; i<Library.requestList.size(); i++){
+            if(Library.requestList.get(i)[0] == bookId){
+                accountID = Library.requestList.get(i)[1];
+                index = i;
+            }
+        }
  
- 
-        if (bookToCheckout == null) {
+        if (accountID == null) {
             System.out.println("Error: Book with ID " + bookId + " not found in Library.books map");
             return;
         }
- 
- 
-        Library.books.remove(bookId);
-        Library.checkedOutBooks.put(bookId, bookToCheckout);
-        bookToCheckout.setTakenOut(true);
- 
- 
-        if (accountID != 0) {
-            bookToCheckout.setAccount(accountID);
+        else{
+            for(int i=0; i<Library.books.size(); i++){
+                if(Library.books.get(i).getId() == bookId){
+                    bookToCheckout = Library.books.get(i);
+                }
+            }
+            Library.checkedOutBooks.add(bookToCheckout);
+            bookToCheckout.setTakenOut(true);
+            Library.requestList.remove(index);
         }
- 
+
  
     }
  
