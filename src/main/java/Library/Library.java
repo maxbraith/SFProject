@@ -27,9 +27,14 @@ import Library.Users.student;
 
 
 public class Library {
+
     public static Map<String,parentUser> users;
+
+    public static ArrayList<String[]> requestList;
+
+
     public static ArrayList<Book> books;
-    public static ArrayList<Book> checkedOutBooksRequests;
+    public static ArrayList<Book> checkedOutBooks;
 
     // public Library(){
     //     users = new HashMap<String,parentUser>();
@@ -45,10 +50,14 @@ public class Library {
     public static void main(String[] args) throws CsvValidationException, IOException, NoSuchAlgorithmException {
         users = new HashMap<String,parentUser>();
         books = new ArrayList<Book>();
+
         checkedOutBooksRequests = new ArrayList<Book>();
         // System.out.println(parentUser.passwordHash("00")[0]);
         // System.out.println(parentUser.passwordHash("00")[1]);
-        initializer();
+
+        checkedOutBooks = new ArrayList<Book>();
+        requestList = new ArrayList<String[]>();
+        initalizer();
         StartUI();
         deInitializer();
     }

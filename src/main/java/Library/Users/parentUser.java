@@ -17,6 +17,7 @@ public class parentUser {
     // modifier, which means they can be accessed by any subclass of `parentUser`. They represent the
     // attributes of a user object, such as their ID, email, password hash, grade, name, account type,
     // and salt.
+
     protected String id;
     protected String email;
     protected String passwordHash;
@@ -33,6 +34,7 @@ public class parentUser {
 
     public parentUser(){
 
+
     }
 
     
@@ -43,6 +45,17 @@ public class parentUser {
     */
     public String getPasswordHash() {
     	return this.passwordHash;
+
+    public void parentUser(String id, String email, String password, int grade) throws IllegalArgumentException{
+        this.id = id;
+        this.email = email;
+        this.password = password;
+        this.grade = grade;
+    }
+
+    public String getID(){
+        return id;
+
     }
 
     /**
