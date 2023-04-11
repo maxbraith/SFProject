@@ -56,18 +56,6 @@ public class getAllBooked {
     }
 
 
-    void addBook(){
-
-    }
-
-    void removeBook(){
-
-    }
-
-    void getAllBooks(){
-
-    }
-
 
 
 

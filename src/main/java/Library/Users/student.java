@@ -8,20 +8,21 @@ import Library.Library;
 
 
 public class student extends parentUser{
-    ArrayList<Book> assignedBooks;
-    public student(String id, String email, String password, int grade){
+
+
+
+    public student(String id, String email, String passwordHash, int grade, String name, String accountType,String salt){
+
         this.id = id;
         this.email = email;
-        this.password = password;
+        this.passwordHash = passwordHash;
         this.grade = grade;
-        this.accType = "Student";
-        this.assignedBooks = new ArrayList<>();
-        
+        this.name =name;
+        this.accountType = accountType;
+        this.salt = salt;
     }
 
-    public String accType(){
-        return this.accType;
-    }
+
 
     public ArrayList<Book> getAssignedBooks(){
         return assignedBooks;
@@ -41,5 +42,6 @@ public class student extends parentUser{
  
  
  
+
     
 }
