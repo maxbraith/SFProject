@@ -46,13 +46,7 @@ public class parentUser {
     public String getPasswordHash() {
     	return this.passwordHash;
 
-    public void parentUser(String id, String email, String password, int grade) throws IllegalArgumentException{
-        this.id = id;
-        this.email = email;
-        this.password = password;
-        this.grade = grade;
     }
-
     public String getID(){
         return id;
 

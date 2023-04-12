@@ -34,7 +34,7 @@ public class Library {
 
 
     public static ArrayList<Book> books;
-    public static ArrayList<Book> checkedOutBooks;
+    public static ArrayList<Book> checkedOutBooksRequests;
 
     // public Library(){
     //     users = new HashMap<String,parentUser>();
@@ -55,9 +55,8 @@ public class Library {
         // System.out.println(parentUser.passwordHash("00")[0]);
         // System.out.println(parentUser.passwordHash("00")[1]);
 
-        checkedOutBooks = new ArrayList<Book>();
         requestList = new ArrayList<String[]>();
-        initalizer();
+        initializer();
         StartUI();
         deInitializer();
     }

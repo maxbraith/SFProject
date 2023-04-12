@@ -92,33 +92,36 @@ public class librarian extends parentUser{
      * @param bookId - ID of book
      * NOTE: Does not have a handler for if key does not exist
      */
-    public void confirmRequestCheckout(String bookId){
-        String accountID = null;
-        Book bookToCheckout = null;
-        int index = -1;
-        for(int i=0; i<Library.requestList.size(); i++){
-            if(Library.requestList.get(i)[0] == bookId){
-                accountID = Library.requestList.get(i)[1];
-                index = i;
-            }
-        }
+
+    // NEED TO BE REWORKED 
+
+    // public void confirmRequestCheckout(String bookId){
+    //     String accountID = null;
+    //     Book bookToCheckout = null;
+    //     int index = -1;
+    //     for(int i=0; i<Library.requestList.size(); i++){
+    //         if(Library.requestList.get(i)[0] == bookId){
+    //             accountID = Library.requestList.get(i)[1];
+    //             index = i;
+    //         }
+    //     }
  
-        if (accountID == null) {
-            System.out.println("Error: Book with ID " + bookId + " not found in Library.books map");
-            return;
-        }
-        else{
-            for(int i=0; i<Library.books.size(); i++){
-                if(Library.books.get(i).getId() == bookId){
-                    bookToCheckout = Library.books.get(i);
-                }
-            }
-            Library.checkedOutBooks.add(bookToCheckout);
-            bookToCheckout.setTakenOut(true);
-            Library.requestList.remove(index);
-        }
+    //     if (accountID == null) {
+    //         System.out.println("Error: Book with ID " + bookId + " not found in Library.books map");
+    //         return;
+    //     }
+    //     else{
+    //         for(int i=0; i<Library.books.size(); i++){
+    //             if(Library.books.get(i).getId() == bookId){
+    //                 bookToCheckout = Library.books.get(i);
+    //             }
+    //         }
+    //         Library.checkedOutBooks.add(bookToCheckout);
+    //         bookToCheckout.setTakenOut(true);
+    //         Library.requestList.remove(index);
+    //     }
 
  
-    }
+    // }
 
 }
