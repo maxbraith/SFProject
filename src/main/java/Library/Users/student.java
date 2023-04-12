@@ -25,6 +25,7 @@ public class student extends parentUser{
 
 
     public ArrayList<Book> getAssignedBooks(){
+        ArrayList<Book> assignedBooks = new ArrayList<Book>();
         return assignedBooks;
     }
 
