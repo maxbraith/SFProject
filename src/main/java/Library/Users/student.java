@@ -1,27 +1,48 @@
 package Library.Users;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import Library.Book.Book;
+import Library.Library;
+
 
 public class student extends parentUser{
-    ArrayList<Book> assignedBooks;
-    public student(int id, String email, String password, int grade){
+
+
+
+    public student(String id, String email, String passwordHash, int grade, String name, String accountType,String salt){
+
         this.id = id;
         this.email = email;
-        this.password = password;
+        this.passwordHash = passwordHash;
         this.grade = grade;
-        this.accType = "Student";
-        this.assignedBooks = new ArrayList<>();
-        
+        this.name =name;
+        this.accountType = accountType;
+        this.salt = salt;
     }
 
-    public String accType(){
-        return this.accType;
-    }
+
 
     public ArrayList<Book> getAssignedBooks(){
+        ArrayList<Book> assignedBooks = new ArrayList<Book>();
         return assignedBooks;
     }
+
+    public int getGrade(){
+        return grade;
+    }
+ 
+ 
+    public void requestBook(String id){
+        String[] array = new String[2];
+        array[0] = id;
+        array[1] = this.id;
+        Library.requestList.add(array);
+    }
+ 
+ 
+ 
+
     
 }

@@ -3,27 +3,66 @@
 ## Project 01 - Bank Software
 
 Names:
-<< add 3-4 names here >>
 Emmett Barry
 Yash Mohod
+Max Braithwaite
+Joe Guidi
+
+------------------------------------------------------------------------------------------------
+SPRINT 1 
+------------------------------------------------------------------------------------------------
 
 Sprint 1 Goal:  Allow users to log into the library and check out books
 
 All Diagrams:
 https://drive.google.com/file/d/1QbeVYMYV4aEcJL1MbtvemgIvg0QWqdm2/view?usp=sharing
 
+Sprint 1 review/demo:
+https://docs.google.com/document/d/1scvTjDQCzdwVNoyNOUlcDum9getDxI7phWlymNOv2-Y/edit?usp=sharing
+
+Sprint 1 retrospective document link:
+https://docs.google.com/document/d/1Mw5NfhqC1uRtmySeOPUxafutjMoMqaqhhFfBDekA1PE/edit?usp=sharing
+
 Three Use Cases that you will implement first:
-1. -
-2. - 
-3. - 
+1. - Login 
+2. - Create Account 
+3. - Librarian 
 
 Which classes & methods do you need to implement for these use cases?
 (Indicated which team member is responsible for the implemenation)
-1. -
-2. -
-3. -
-4. -
+1. - Library - yash
+2. - User - Joe
+3. - Librarian/ student- max 
+4. - Book/ librarian - Emmett
 5. << add more as needed >>
+
+
+------------------------------------------------------------------------------------------------
+SPRINT 2
+------------------------------------------------------------------------------------------------
+
+Sprint 2 Goal:
+
+All Diagrams:
+https://drive.google.com/file/d/1QbeVYMYV4aEcJL1MbtvemgIvg0QWqdm2/view?usp=sharing
+
+Sprint 2 review/demo:
+
+Sprint 2 retrospective document link:
+
+Three Use Cases that you will implement first:
+1. -  
+2. -  
+3. -
+
+Which classes & methods do you need to implement for these use cases?
+(Indicated which team member is responsible for the implemenation)
+1. - 
+2. - 
+3. - 
+4. - 
+5. << add more as needed >>
+
 
 Don't forget to use Test-Driven Development (TDD)
 1. Write Class and Method Function Headers
