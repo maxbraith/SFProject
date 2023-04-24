@@ -8,6 +8,7 @@ public class Assignment {
     String assignedGrade;
     Boolean assignedToStudent;
     String book;
+    int noCopies;
 
     public Assignment(){}
 
@@ -17,11 +18,12 @@ public class Assignment {
         this.book = book.getTitle();
         this.assignedToStudent = true;
     }
-    public Assignment(parentUser assignedBy,String grade,Book book){
+    public Assignment(parentUser assignedBy,String grade,Book book,int noCopies){
         this.assignedBy = assignedBy.getId();
         this.assignedGrade= grade;
         this.book = book.getTitle();
         this.assignedToStudent = false;
+        this.noCopies = noCopies;
     }
 
     public String getAssignedBy() {

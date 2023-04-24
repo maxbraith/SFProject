@@ -21,12 +21,37 @@ public class faculty extends parentUser {
         this.secretQuestion = secretQuestion;
         this.secretAns = secretAns;
     }
+    public boolean checkNoCopiesAvaliable(ArrayList<Book> books, Book book, int noCopies){
+        int counter = 0;
+        for(Book curBook: books){
+            if(!curBook.getTakenOut() && curBook.getId().equals(book.getId())){
+                counter++;
+            }
+        }
+        if(counter >= noCopies){
+            return true;
+        }else{
+            return false;
+        }
+        
+    }
 
-    public void assignBooks(String grade,ArrayList<Assignment> assignments,Book book){
-        assignments.add(new Assignment(this,grade,book)) ;
+    public boolean assignBooks(String grade,ArrayList<Assignment> assignments,Book book,int noCopies,ArrayList<Book> books){
+        if(checkNoCopiesAvaliable(books,book,noCopies)){
+            assignments.add(new Assignment(this,grade,book,noCopies)) ;
+            return true;
+        }else{
+            return false;
+        }
     }
-    public void assignBooks(parentUser student,ArrayList<Assignment> assignments,Book book){
-        assignments.add(new Assignment(this,student,book)) ;
+    public boolean assignBooks(parentUser student,ArrayList<Assignment> assignments,Book book,ArrayList<Book> books){
+        if(checkNoCopiesAvaliable(books,book,1)){
+            assignments.add(new Assignment(this,student,book)) ;
+            return true;
+        }else{
+            return false;
+        }
     }
+    
     
 }

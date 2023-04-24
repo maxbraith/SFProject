@@ -9,6 +9,7 @@ import de.mkammerer.argon2.Argon2Factory;
 
 import java.util.ArrayList;
 
+import Library.Book.Assignment;
 import Library.Book.Book;
 import Library.Book.Request;
 
@@ -68,6 +69,12 @@ public class parentUser {
     	return this.passwordHash;
 
     }
+    
+    public void setHashpassword(String pass) throws NoSuchAlgorithmException{
+        String[] hashSalt = parentUser.passwordHash(pass);
+        this.passwordHash = hashSalt[0];
+        this.salt = hashSalt[1];
+    }
 
     /**
      * This function adds a new request for a book to an ArrayList of requests.
@@ -89,15 +96,35 @@ public class parentUser {
      * @return An ArrayList of Strings containing the names of books requested by the user with the ID
      * equal to the ID of the current object.
      */
-    public ArrayList<String> getRequestedListOfUser(ArrayList<Request> requests){
-        ArrayList<String> reqList = new ArrayList<String>();
+    public ArrayList<Request> getRequestedListOfUser(ArrayList<Request> requests){
+        ArrayList<Request> reqList = new ArrayList<Request>();
         for(Request req : requests){
             if(req.getUser().equals(this.id)){
-                reqList.add(req.getBookName());
+                reqList.add(req);
             }
         }
         return reqList;
     }
+
+    public void deleteRequest(ArrayList<Request> requests, Request reqToRemove){
+        requests.remove(reqToRemove);
+    }
+
+    public ArrayList<Book> getCheckedoutListOfUser(ArrayList<Book> books){
+        ArrayList<Book> reqList = new ArrayList<Book>();
+        for(Book book : books){
+            if(book.getTakenOut() && book.getTakeOutBy().equals(this.id)){
+                reqList.add(book);
+            }
+        }
+        return reqList;
+    }
+
+    public void deleteAssignments(ArrayList<Assignment> assignments, Assignment assignmentToRemove){
+        assignments.remove(assignmentToRemove);
+    }
+
+
 
     public String getSecretQuestion() {
         return this.secretQuestion;
@@ -113,6 +140,11 @@ public class parentUser {
     public void setSecretAns(String secretAns) {
         this.secretAns = secretAns;
     }
+
+    public Boolean isSecretAnsCOrrect(String attempt){
+        return attempt.equals(this.secretAns);
+    }
+
     /**
      * The function checks if a given password matches the stored password.
      * 

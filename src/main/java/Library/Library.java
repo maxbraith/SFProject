@@ -50,7 +50,7 @@ public class Library {
 
 
         initializer();
-        // StartUI();
+        StartUI();
         deInitializer();
     }
 
@@ -87,7 +87,7 @@ public class Library {
 
         ArrayList<parentUser> tempUsers=(ArrayList<parentUser>) JsonUtil.listFromJsonFile("src\\main\\java\\Library\\Data\\usersData.json",parentUser.class);
         for(parentUser user : tempUsers){
-            System.out.println(user.getAccountType());
+            // System.out.println(user.getAccountType());
             if(user.getAccountType().equals("student")){
                 student temp =  user.toStudent(user);
                 users.put(temp.getEmail(), temp);
@@ -160,9 +160,7 @@ public class Library {
                     logIn(sc);
                     break;
                 case 2 :
-                    System.out.println("********************************");
-                    System.out.println("feature work in progress!");
-                    System.out.println("********************************");
+                    accountRecovery(sc);
                     break;
                 case 3 :
                     run = false;
@@ -171,6 +169,53 @@ public class Library {
             }
             System.out.println("********************************");
         }
+    }
+
+    private static void accountRecovery(Scanner sc) throws NoSuchAlgorithmException{
+
+        boolean run = true;
+        while(run){
+            System.out.println("********************************");
+            System.out.println("Forgot your password, No problem!");
+            System.out.println("Enter \"back\" to go back at any point.");
+            System.out.println("Enter email:");
+            String email = sc.next();
+            if(email.equals("back")){run = false; break;}
+            parentUser curUser = users.get(email);
+            if(curUser == null){
+                System.out.println("No user found with email: "+email);
+                System.out.println("Please contact your librarian for assistance!");
+                break;
+            }
+            System.out.println(curUser.getSecretQuestion());
+            System.out.println("Enter answer:");
+            String ans = sc.next();
+            if(email.equals("back")){run = false; break;}
+
+            if(curUser.isSecretAnsCOrrect(ans)){
+                boolean passwordLoop = true;
+                String password="";
+                String password2="";
+                while(passwordLoop){
+                    System.out.println("Enter password:");
+                    password = sc.next();
+                    if(password.equals("back")){run = false;passwordLoop=false; break;}
+                    System.out.println("Re-Enter password:");
+                    password2 = sc.next();
+                    if(password2.equals("back")){run = false;passwordLoop=false; break;}
+                    if(password.equals(password2)){passwordLoop=false; break;
+                    }else{System.out.println("Password do not match!\nTry again!");}
+                }
+                curUser.setHashpassword(password);
+                System.out.println("Password has been reset, please try loging in!");
+            }else{
+                System.out.println("Your entered answer is incorrect!");
+            }
+            break;
+
+
+        }
+
     }
 
     private static void logIn(Scanner sc) throws NoSuchAlgorithmException, IOException{
@@ -221,14 +266,33 @@ public class Library {
             // student main menu
             System.out.println("Please select an option to continue:");
             if(currentuser.getAccountType().equals("student")){
-                System.out.println("(1) Search Book");
-                System.out.println("(2) see assigned Books");
-                System.out.println("(3) Exit");
+                System.out.println("(1) Search Book (to request book or to just browse)");
+                System.out.println("(2) View assigned books");
+                System.out.println("(3) View requested books");
+                System.out.println("(4) View checked out books");
+                System.out.println("(5) Exit");
                 System.out.println("Enter Number:");
                 int input = sc.nextInt();
 
                 switch(input){
-                    case 3 :
+
+                    case 1:
+                        searchBook(currentuser, sc);
+                        break;
+
+                    case 2:
+                        showAssignedBooks(currentuser);
+                        break;
+
+                    case 3:
+                        showRequestedBooks(currentuser, sc);
+                        break;
+
+                    case 4:
+                        showCheckedoutBooks(currentuser);
+                        break;
+                    
+                    case 5 :
                         run = false;
                         System.out.println("Logging out...");
                         break;
@@ -238,13 +302,29 @@ public class Library {
             // faculty main menu 
             if(currentuser.getAccountType().equals("faculty")){
                 System.out.println("(1) Search Book");
-                System.out.println("(2) See assigned Books");
-                System.out.println("(3) Exit");
+                System.out.println("(2) View All assignments");
+                System.out.println("(3) View requested books");
+                System.out.println("(4) View checked out books");
+                System.out.println("(5) Exit");
                 System.out.println("Enter Number:");
                 int input = sc.nextInt();
 
                 switch(input){
-                    case 3 :
+                    case 1 :
+                        break;
+
+                    case 2:
+                        break;
+
+                    case 3:
+                        showRequestedBooks(currentuser, sc);
+                        break;
+
+                    case 4:
+                        showCheckedoutBooks(currentuser);
+                        break;
+
+                    case 5 :
                         run = false;
                         System.out.println("Logging out...");
                         break;
@@ -259,17 +339,27 @@ public class Library {
                 System.out.println("(3) Delete Book");
                 System.out.println("(4) Delete account");
                 System.out.println("(5) Approve book checkout request");
-                System.out.println("(6) Checkout book");
-                System.out.println("(7) Exit");
+                System.out.println("(6) View all checkout books");
+                System.out.println("(7) View all assignments");
+                System.out.println("(8) View requested books");
+                System.out.println("(9) View checked out books");
+                
+                System.out.println("(10) Exit");
                 System.out.println("Enter Number:");
                 int input = sc.nextInt();
 
                 switch(input){
+                    case 1:
+                        addBook(currentuser,sc);
+                        break;
 
-                    case 2: librarian_addAccount(sc);
-                            break;
-
-                    case 7 :
+                    case 2: 
+                        librarian_addAccount(sc);
+                        break;
+                    case 4:
+                        deleteAccount(sc);
+                        break;
+                    case 10 :
                         run = false;
                         System.out.println("Logging out...");
                         break;
@@ -280,9 +370,155 @@ public class Library {
         }
     }
 
+    
+
+
+
+    
+
+
+
+    // all account options
+    private static void searchBook(parentUser currentuser, Scanner sc) {
+        boolean run = true;
+        while(run){
+            System.out.println("********************************");
+            System.out.println("Search Books");
+            System.out.println("Select how you want to search books");
+            System.out.println("Search by");
+            System.out.println("(1) Title");
+            System.out.println("(2) Author");
+            System.out.println("(3) ISBN");
+            System.out.println("(4) Go Back");
+            System.out.println("Enter your selection:");
+            int selection = sc.nextInt();
+            if(selection == 4){break;}
+            String selectionString="";
+            if(selection == 3){selectionString ="ISBN"; }
+            if(selection == 2){selectionString ="Author"; }
+            if(selection == 1){selectionString ="Title"; }
+
+            System.out.println("Enter "+selectionString+" :");
+            String searchByInfo = sc.nextLine();
+            
+
+        }
+    }
+
+    // show requested books 
+    public static void showRequestedBooks(parentUser user, Scanner sc){
+        ArrayList<Request> userRequests = user.getRequestedListOfUser(requests);
+        if(userRequests.size()<=0){
+            System.out.println("Your request list is empty!");
+
+        }else{
+            int count =1;
+            for(Request req :userRequests){
+                System.out.println("("+String.valueOf(count++) +") "+req.getBookName());
+            }
+        }
+
+        while(true){
+            System.out.println("Enter \"back\" to go back at any point.");
+            System.out.println("Enter the index number of the request to delete:");
+            String index = sc.next();
+            if(index.equals("back")){break;}
+            user.deleteRequest(userRequests, userRequests.get(Integer.parseInt(index)));
+        }
+    }
+
+    // show checkedout books
+    public static void showCheckedoutBooks(parentUser user){
+        ArrayList<Book> userCheckedOut = user.getCheckedoutListOfUser(books);
+        if(userCheckedOut.size()<=0){
+            System.out.println("Your request list is empty!");
+
+        }else{
+            int count =1;
+            for(Book curBook :userCheckedOut){
+                System.out.println("("+String.valueOf(count++) +") "+curBook.getTitle());
+            }
+        }
+    }
+
+
+
+    // student options
+    public static void showAssignedBooks(parentUser user){
+  
+        ArrayList<String> userRequests = student.getAssignedBooks(assignments, user);
+        if(userRequests.size()<=0){
+            System.out.println("Your request list is empty!");
+
+        }else{
+            int count =1;
+            for(String req :userRequests){
+                System.out.println("("+String.valueOf(count++) +") "+req);
+            }
+        }
+
+    }
 
 
     // librarian options
+
+    // delete account 
+    private static void deleteAccount(Scanner sc){
+        boolean run = true;
+        while(run){
+            System.out.println("********************************");
+            System.out.println("Delete account");
+            System.out.println("Enter \"back\" to go back at any point.");
+
+            System.out.println("Enter email of the account to be deleted:");
+            String email = sc.next();
+            if(email.equals("back")){ break;}
+            parentUser curAccount = users.get(email);
+            if(curAccount == null){
+                System.out.println("Account not Found!");
+                break;
+            }else{
+                System.out.println(curAccount.toString());
+                System.out.println("Do you want to delete this account?");
+                System.out.println("Enter \"yes\" to continue:");
+                String confirmation = sc.next();
+                if(confirmation.equals("back")){ break;}
+                if(confirmation.equals("yes")){
+                    librarian.deleteAccount(users,curAccount);
+                    System.out.println("Account is deleted!");   
+                }else{
+                    System.out.println("Confirmation was denied.");
+                    System.out.println("Account has NOT been deleted!.");
+                }
+            }
+
+        }
+    }
+
+    // add book
+
+    private static void addBook(parentUser currentuser, Scanner sc) {
+        System.out.println("********************************");
+        System.out.println("Add Book");
+        System.out.println("Enter \"back\" to go back at any point.");
+        System.out.println("Enter the details of the book to add book:");
+        while(true){
+            System.out.println("Enter Title:");
+            String title = sc.next();
+            if(title.equals("back")){ break;}
+
+            System.out.println("Enter Author:");
+            String author = sc.next();
+            if(author.equals("back")){ break;}
+            
+            System.out.println("Enter ISBN:");
+            String isbn = sc.next();
+            if(isbn.equals("back")){break;}
+            librarian.addBook(books, title, author, isbn);
+            break;
+
+        }
+    }
 
     // add account 
     private static void librarian_addAccount(Scanner sc) throws NoSuchAlgorithmException, IOException{
@@ -303,9 +539,13 @@ public class Library {
                 break;
             }
 
-            System.out.println("Enter Name:");
-            String name = sc.next();
-            if(name.equals("back")){run = false; break;}
+            System.out.println("Enter First name:");
+            String name1 = sc.next();
+            if(name1.equals("back")){run = false; break;}
+            System.out.println("Enter Last name:");
+            String name2 = sc.next();
+            if(name2.equals("back")){run = false; break;}
+            String name = name1 +" "+ name2;
 
             boolean passwordLoop = true;
             String password="";

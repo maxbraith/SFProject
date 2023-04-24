@@ -27,15 +27,15 @@ public class student extends parentUser{
 
 
 
-    public ArrayList<String> getAssignedBooks(ArrayList<Assignment> assignments){
+    public static ArrayList<String> getAssignedBooks(ArrayList<Assignment> assignments, parentUser curUser){
         ArrayList<String> assignedBooks = new ArrayList<String>();
         for(Assignment assignment : assignments){
             if(assignment.isAssignedToStudent()){
-                if(assignment.getAssignedTo().equals(this.id)){
+                if(assignment.getAssignedTo().equals(curUser.getId())){
                     assignedBooks.add(assignment.getBook());
                 }
             }else{
-                if(assignment.getAssignedTo().equals(this.grade)){
+                if(assignment.getAssignedTo().equals(curUser.getId())){
                     assignedBooks.add(assignment.getBook());
                 }
             }

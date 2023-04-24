@@ -4,3 +4,7 @@ packages:
     shallow: true
 language: java
 appmap_dir: target/appmap
+test_recording:
+  test_commands:
+    - command: mvn test
+      env: {}

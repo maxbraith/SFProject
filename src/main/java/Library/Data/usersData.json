@@ -6,7 +6,8 @@
   "name" : "Yash",
   "accountType" : "student",
   "salt" : "[B@27c20538",
-  "assignedBooks" : [ ]
+  "secretQuestion" : null,
+  "secretAns" : null
 }, {
   "id" : "95367e77-ca01-468d-8713-2702aa660920",
   "email" : "faculty2@email.com",
@@ -14,16 +15,19 @@
   "grade" : 0,
   "name" : "Emmett",
   "accountType" : "faculty",
-  "salt" : "[B@59494225"
+  "salt" : "[B@59494225",
+  "secretQuestion" : null,
+  "secretAns" : null
 }, {
   "id" : "f82fe1a2-cb8a-4eda-8a2e-5dff6a1a74e8",
   "email" : "mohodyash@gmail.com",
-  "passwordHash" : "696d86ccb7cb4f98db8c9d60043849f11755b51a7da1881d004466dde8bf0bf0",
+  "passwordHash" : "861792472ba0ae437e815a51541b85ba6cdd74b287929826359d9ae48dc03660",
   "grade" : 5,
   "name" : "yash",
   "accountType" : "student",
-  "salt" : "[B@76707e36",
-  "assignedBooks" : [ ]
+  "salt" : "[B@43301423",
+  "secretQuestion" : "What is 1+2?",
+  "secretAns" : "3"
 }, {
   "id" : "cdddb032-8a39-4106-854d-5952375b22c9",
   "email" : "ryan@ithaca.edu",
@@ -32,7 +36,8 @@
   "name" : "Ryan",
   "accountType" : "student",
   "salt" : "[B@76707e36",
-  "assignedBooks" : [ ]
+  "secretQuestion" : null,
+  "secretAns" : null
 }, {
   "id" : "0f73f753-c769-444b-b49a-af38c23bc1cb",
   "email" : "librarian2@email.com",
@@ -40,7 +45,9 @@
   "grade" : 0,
   "name" : "Max",
   "accountType" : "librarian",
-  "salt" : "[B@cb644e"
+  "salt" : "[B@cb644e",
+  "secretQuestion" : null,
+  "secretAns" : null
 }, {
   "id" : "b9a298a8-fabf-4eaf-9a74-6f5eeb716d97",
   "email" : "student1@email.com",
@@ -49,7 +56,8 @@
   "name" : "Yash",
   "accountType" : "student",
   "salt" : "[B@490ab905",
-  "assignedBooks" : [ ]
+  "secretQuestion" : null,
+  "secretAns" : null
 }, {
   "id" : "280a6b81-78b4-458d-8d1b-48e638ae89d5",
   "email" : "faculty1@email.com",
@@ -57,7 +65,9 @@
   "grade" : 0,
   "name" : "Emmett",
   "accountType" : "faculty",
-  "salt" : "[B@72d818d1"
+  "salt" : "[B@72d818d1",
+  "secretQuestion" : null,
+  "secretAns" : null
 }, {
   "id" : "f520da0a-d31d-479d-beb6-b9eb3866d907",
   "email" : "librarian1@email.com",
@@ -65,5 +75,7 @@
   "grade" : 0,
   "name" : "Joe",
   "accountType" : "librarian",
-  "salt" : "[B@6e1567f1"
+  "salt" : "[B@6e1567f1",
+  "secretQuestion" : null,
+  "secretAns" : null
 } ]

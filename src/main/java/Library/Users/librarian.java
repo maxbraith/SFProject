@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import Library.Book.Book;
@@ -27,6 +28,19 @@ public class librarian extends parentUser{
         this.salt = salt;
         this.secretQuestion = secretQuestion;
         this.secretAns = secretAns;
+    }
+
+    public String toString(){
+        String response="";
+        response = response+"ID :"+this.id+"\n";
+        response = response+"Email :"+this.email+"\n";
+        response = response+"Name :"+this.name+"\n";
+        response = response+"Account Type :"+this.accountType+"\n";
+        if(this.accountType.equals("Student")){
+            response = response+"Grade :"+this.grade+"\n";
+        }
+
+        return response;
     }
 
     /**
@@ -82,17 +96,36 @@ public class librarian extends parentUser{
             return user;
         }
         
+    
     }
-    // public Book checkOutBook(int bookId, parentUser acc, ArrayList<Book> books){
-    //     for(int i=0; i<books.size(); i++){
-    //         Book myBook = books.get(i);
-    //         if(bookId == myBook.getId()){
-    //             return myBook;
-    //         }
-    //     }
-    //     return null;
-        
-    // }
+
+    /**
+     * The function adds a new book to an ArrayList of books with a unique ID generated using UUID.
+     * 
+     * @param books an ArrayList of Book objects, which is the collection of books to which the new
+     * book will be added.
+     * @param title The title of the book being added to the ArrayList.
+     * @param author The author parameter is a String that represents the name of the author of the
+     * book being added to the ArrayList.
+     * @param ISBN ISBN stands for International Standard Book Number. It is a unique identifier
+     * assigned to each edition and variation of a book. It is usually a 10 or 13 digit number that can
+     * be used to identify a book in a library or bookstore.
+     */
+    public static void addBook(ArrayList<Book>books, String title, String author, String ISBN){
+        String uuid = UUID.randomUUID().toString();
+        books.add(new Book(uuid, title, author, ISBN, false, null));
+    }
+    /**
+     * The function removes a specific book from an ArrayList of books.
+     * 
+     * @param books an ArrayList of Book objects, representing a collection of books
+     * @param bookToRemove The book object that needs to be removed from the ArrayList of books.
+     */
+    public static void deleteBoo(ArrayList<Book>books,Book bookToRemove){
+        books.remove(bookToRemove);
+    }
+
+
 
     public Book checkOutBook(String bookId, parentUser acc, ArrayList<Book> books){
         for(int i=0; i<books.size(); i++){
@@ -134,34 +167,11 @@ public class librarian extends parentUser{
         }
         requests.remove(request);
 
-
-
-        // String accountID = null;
-        // Book bookToCheckout = null;
-        // int index = -1;
-        // for(int i=0; i<Library.requestList.size(); i++){
-        //     if(Library.requestList.get(i)[0] == bookId){
-        //         accountID = Library.requestList.get(i)[1];
-        //         index = i;
-        //     }
-        // }
- 
-        // if (accountID == null) {
-        //     System.out.println("Error: Book with ID " + bookId + " not found in Library.books map");
-        //     return;
-        // }
-        // else{
-        //     for(int i=0; i<Library.books.size(); i++){
-        //         if(Library.books.get(i).getId() == bookId){
-        //             bookToCheckout = Library.books.get(i);
-        //         }
-        //     }
-        //     Library.checkedOutBooks.add(bookToCheckout);
-        //     bookToCheckout.setTakenOut(true);
-        //     Library.requestList.remove(index);
-        // }
-
- 
     }
+
+
+	public static void deleteAccount(Map<String, parentUser> users, parentUser curAccount) {
+        users.remove(curAccount.getEmail());
+	}
 
 }
