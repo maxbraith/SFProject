@@ -10,6 +10,7 @@ import de.mkammerer.argon2.Argon2Factory;
 import java.util.ArrayList;
 
 import Library.Book.Book;
+import Library.Book.Request;
 
 public class parentUser {
 
@@ -27,14 +28,28 @@ public class parentUser {
     protected String accountType;
     protected String salt;
 
-
-
-
-
-
     public parentUser(){
 
 
+    }
+    public parentUser(String id, String email, String passwordHash, int grade, String name, String accountType, String salt){
+
+        this.id = id;
+        this.email = email;
+        this.passwordHash = passwordHash;
+        this.grade = grade;
+        this.name =name;
+        this.accountType = accountType;
+        this.salt = salt;
+    }
+    public student toStudent(parentUser student){
+        return new student(student.getId(),student.getEmail(),student.getPasswordHash(),student.getGrade(),student.getName(),student.getAccountType(),student.getSalt());
+    }
+    public faculty toFaculty(parentUser student){
+        return new faculty(student.getId(),student.getEmail(),student.getPasswordHash(),student.getGrade(),student.getName(),student.getAccountType(),student.getSalt());
+    }
+    public librarian toLibrarian(parentUser student){
+        return new librarian(student.getId(),student.getEmail(),student.getPasswordHash(),student.getGrade(),student.getName(),student.getAccountType(),student.getSalt());
     }
 
     
@@ -47,9 +62,35 @@ public class parentUser {
     	return this.passwordHash;
 
     }
-    public String getID(){
-        return id;
 
+    /**
+     * This function adds a new request for a book to an ArrayList of requests.
+     * 
+     * @param Book The Book parameter is an object of the Book class, which represents a book that is
+     * being requested by a user.
+     * @param requests An ArrayList of Request objects, which is used to store all the book requests
+     * made by users.
+     */
+    public void requestBook(Book Book, ArrayList<Request> requests){
+        requests.add(new Request(this, Book));
+    }
+
+    /**
+     * The function returns a list of book names requested by a specific user from a list of requests.
+     * 
+     * @param requests an ArrayList of Request objects, which contains information about book requests
+     * made by users.
+     * @return An ArrayList of Strings containing the names of books requested by the user with the ID
+     * equal to the ID of the current object.
+     */
+    public ArrayList<String> getRequestedListOfUser(ArrayList<Request> requests){
+        ArrayList<String> reqList = new ArrayList<String>();
+        for(Request req : requests){
+            if(req.getUser().equals(this.id)){
+                reqList.add(req.getBookName());
+            }
+        }
+        return reqList;
     }
 
     /**

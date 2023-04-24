@@ -3,6 +3,7 @@ package Library.Users;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import Library.Book.Assignment;
 import Library.Book.Book;
 import Library.Library;
 
@@ -24,8 +25,19 @@ public class student extends parentUser{
 
 
 
-    public ArrayList<Book> getAssignedBooks(){
-        ArrayList<Book> assignedBooks = new ArrayList<Book>();
+    public ArrayList<String> getAssignedBooks(ArrayList<Assignment> assignments){
+        ArrayList<String> assignedBooks = new ArrayList<String>();
+        for(Assignment assignment : assignments){
+            if(assignment.isAssignedToStudent()){
+                if(assignment.getAssignedTo().equals(this.id)){
+                    assignedBooks.add(assignment.getBook());
+                }
+            }else{
+                if(assignment.getAssignedTo().equals(this.grade)){
+                    assignedBooks.add(assignment.getBook());
+                }
+            }
+        }
         return assignedBooks;
     }
 
@@ -33,13 +45,6 @@ public class student extends parentUser{
         return grade;
     }
  
- 
-    public void requestBook(String id){
-        String[] array = new String[2];
-        array[0] = id;
-        array[1] = this.id;
-        Library.requestList.add(array);
-    }
  
  
  

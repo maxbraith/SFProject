@@ -16,32 +16,27 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.UUID;
 
 import com.opencsv.exceptions.CsvValidationException;
 import Library.Book.Book;
+import Library.Book.Request;
+import Library.JsonUtil.JsonUtil;
 import Library.Users.faculty;
 import Library.Users.librarian;
 import Library.Users.parentUser;
 import Library.Users.student;
+import Library.Book.Assignment;
 
 
 public class Library {
 
     public static Map<String,parentUser> users;
-
-    public static ArrayList<String[]> requestList;
-
-
     public static ArrayList<Book> books;
-    public static ArrayList<Book> checkedOutBooksRequests;
+    public static ArrayList<Request> requests;
+    public static ArrayList<Assignment> assignments;
 
-    // public Library(){
-    //     users = new HashMap<String,parentUser>();
-    //     books = new ArrayList<Book>();
-    //     checkedOutBooksRequests = new ArrayList<Book>();
-    // librarian.checkoutbook(bookid, books) // 
-    // }
 
     /**
      * The main function initializes variables and objects, calls the initializer function, and then
@@ -50,119 +45,62 @@ public class Library {
     public static void main(String[] args) throws CsvValidationException, IOException, NoSuchAlgorithmException {
         users = new HashMap<String,parentUser>();
         books = new ArrayList<Book>();
+        requests = new ArrayList<Request>();
+        assignments = new ArrayList<Assignment>();
 
-        checkedOutBooksRequests = new ArrayList<Book>();
-        // System.out.println(parentUser.passwordHash("00")[0]);
-        // System.out.println(parentUser.passwordHash("00")[1]);
 
-        requestList = new ArrayList<String[]>();
         initializer();
-        StartUI();
+        // StartUI();
         deInitializer();
     }
 
 
-    /*
-     * This function to be used at the end of main when the app shuts down
-     * reads the current book list to a text file to be used again 
-     * when the app restarts
-     */
-    public static void // `writeBookstoTxt` is a method that writes the current list of books to a text
-    // file to be used again when the application restarts. It first clears the
-    // contents of the file, then writes each book's ID, title, author, ISBN,
-    // whether it is taken out or not, and its return date (if applicable) to the
-    // file.
-    writeBookstoTxt() throws IOException{
-        if(clearFile("src\\main\\java\\Library\\Data\\accounts.csv")){
-            FileWriter myWriter = new FileWriter("src\\main\\java\\Library\\Data\\bookDataFiltered.csv");
-            List<parentUser> allUsers = new ArrayList<parentUser>(users.values());
-            // System.out.println(allUsers.size());
-            for(Book book: books){
 
-                myWriter.write(book.getId()+","+book.getTitle()+","+book.getAuthor()+","+book.getIsbn()+","+String.valueOf(book.getTakenOut())+","+book.getReturnDate().toString()+"\n");
-            }
-            myWriter.close();
-        }
-
+/**
+ * This function writes the contents of a JSON file containing book data to a text file.
+ */
+    public static void 
+    writeBookstoTxt() throws IOException{        
+        JsonUtil.toJsonFile("src\\main\\java\\Library\\Data\\books.json", books);
     }
-    /*
-     * This function to be used at the beginning of main
-     * reads the old book list from the text file 
-     * and enters it into our bookList
-     */
+
+/**
+ * This function reads a list of books from a JSON file using a JsonUtil class.
+ */
     public static void readBooksFromTxt() throws IOException{
-
-        String line = "";  
-        String splitBy = ",";  
-        BufferedReader br = new BufferedReader(new FileReader("src\\main\\java\\Library\\Data\\bookDataFiltered.csv")); 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        while ((line = br.readLine()) != null){  
-            String[] temp = line.split(splitBy);
-            // String temp2 = "01/02/0001";
-            // if(!temp[5].equals("null")){
-            //     temp2 = temp[5];
-            // }
-
-            Book tempBook = new Book(temp[0],temp[1],temp[2],temp[3],Boolean.parseBoolean(temp[4]),LocalDate.parse(temp[5], formatter));
-            books.add(tempBook);
-        }  
-
-
-
+        books=(ArrayList<Book>) JsonUtil.listFromJsonFile("src\\main\\java\\Library\\Data\\books.json",Book.class);
     }
 
-        /*
-     * This function to be used at the end of main when the app shuts down
-     * reads the current book list to a text file to be used again 
-     * when the app restarts
-     */
+
+/**
+ * This function writes a list of parentUser objects to a JSON file.
+ */
     public static void writeUserstoTxt() throws IOException{
-        if(clearFile("src\\main\\java\\Library\\Data\\accounts.csv")){
-            FileWriter myWriter = new FileWriter("src\\main\\java\\Library\\Data\\accounts.csv");
-            List<parentUser> allUsers = new ArrayList<parentUser>(users.values());
-            // System.out.println(allUsers.size());
-            for(parentUser user: allUsers){
-
-                myWriter.write(user.getId()+","+user.getEmail()+","+user.getPasswordHash()+","+String. valueOf(user.getGrade())+","+user.getName()+","+user.getAccountType()+","+user.getSalt()+"\n");
-            }
-            myWriter.close();
-        }
+        List<parentUser> allUsers = new ArrayList<parentUser>(users.values());
+        JsonUtil.toJsonFile("src\\main\\java\\Library\\Data\\usersData.json", allUsers);
     }
-    /*
-     * This function to be used at the beginning of main
-     * reads the old book list from the text file 
-     * and enters it into our bookList
+
+    /**
+     * This function reads user data from a JSON file and populates a HashMap with the user objects.
      */
     public static void readUsersFromTxt() throws IOException, NoSuchAlgorithmException{
 
-        String line = "";  
-        String splitBy = ",";  
-        BufferedReader br = new BufferedReader(new FileReader("src\\main\\java\\Library\\Data\\accounts.csv")); 
-        while ((line = br.readLine()) != null){  
-            String[] temp = line.split(splitBy);
-            parentUser currAcc =new parentUser();
-            // String uuid = UUID.randomUUID().toString();
-            // String[] tempHash = parentUser.passwordHash(temp[2]);
-            if(temp[5].equals("student")){
-                currAcc = new student(temp[0],temp[1],temp[2],Integer.parseInt( temp[3]),temp[4],temp[5],temp[6]);
+        ArrayList<parentUser> tempUsers=(ArrayList<parentUser>) JsonUtil.listFromJsonFile("src\\main\\java\\Library\\Data\\usersData.json",parentUser.class);
+        for(parentUser user : tempUsers){
+            System.out.println(user.getAccountType());
+            if(user.getAccountType().equals("student")){
+                student temp =  user.toStudent(user);
+                users.put(temp.getEmail(), temp);
             }
-            if(temp[5].equals("faculty")){
-                currAcc = new faculty(temp[0],temp[1],temp[2],Integer.parseInt( temp[3]),temp[4],temp[5],temp[6]);
+            if(user.getAccountType().equals("faculty")){
+                faculty temp = user.toFaculty(user);
+                users.put(temp.getEmail(), temp);
             }
-            if(temp[5].equals("librarian")){
-                currAcc = new librarian(temp[0],temp[1],temp[2],Integer.parseInt( temp[3]),temp[4],temp[5],temp[6]);
+            if(user.getAccountType().equals("librarian")){
+                librarian temp = user.toLibrarian(user);
+                users.put(temp.getEmail(), temp);
             }
-            
-            users.put(currAcc.getEmail(),currAcc);
-        }  
-    }
-
-
-    private static boolean clearFile(String path) throws FileNotFoundException{
-        PrintWriter writer = new PrintWriter(path);
-        writer.print("");
-        writer.close();
-        return true;
+        }
     }
 
 

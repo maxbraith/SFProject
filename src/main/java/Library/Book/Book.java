@@ -9,7 +9,10 @@ public class Book implements java.io.Serializable {
     String isbn;
     boolean takenOut;
     LocalDate returnDate;
-    
+    String takeOutBy;
+
+
+    public Book(){}
 
     public Book(String id, String title, String author, 
     String isbn, boolean takenOut, LocalDate returnDate){
@@ -19,7 +22,15 @@ public class Book implements java.io.Serializable {
         this.isbn = isbn;
         this.takenOut = takenOut;
         this.returnDate = returnDate;
-        
+        this.takeOutBy ="";
+    }
+
+
+    public String getTakeOutBy() {
+        return this.takeOutBy;
+    }
+    public void setTakeOutBy(String takeOutBy) {
+        this.takeOutBy = takeOutBy;
     }
 
     public boolean getTakenOut(){

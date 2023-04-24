@@ -1,6 +1,8 @@
 package Library.Users;
 
 import java.security.NoSuchAlgorithmException;
+import java.time.Clock;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -8,6 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 import Library.Book.Book;
+import Library.Book.Request;
 import Library.Library;
 
 
@@ -82,9 +85,6 @@ public class librarian extends parentUser{
     }
     
     
-    public ArrayList<String[]> getRequests() {
-        return Library.requestList;
-    }
  
  
     /**
@@ -95,33 +95,52 @@ public class librarian extends parentUser{
 
     // NEED TO BE REWORKED 
 
-    // public void confirmRequestCheckout(String bookId){
-    //     String accountID = null;
-    //     Book bookToCheckout = null;
-    //     int index = -1;
-    //     for(int i=0; i<Library.requestList.size(); i++){
-    //         if(Library.requestList.get(i)[0] == bookId){
-    //             accountID = Library.requestList.get(i)[1];
-    //             index = i;
-    //         }
-    //     }
+    public void confirmRequestCheckout(Request request,ArrayList<Book> books, ArrayList<Request> requests){
+
+
+        LocalDate returnDate =  LocalDate.now().plusDays(14);
+
+        for(Book book : books){
+            if(request.getBook().equals(book.getId())){
+                if(!book.getTakenOut()){
+                    book.setReturnDate(returnDate);
+                    book.setTakenOut(true);
+                    book.setTakeOutBy(request.getUser());
+                }else{
+                    System.out.println("The book : " +book.getTitle()+" (+"+book.getId()+"+) is currently alreday been checked out!");
+                }
+            }
+        }
+        requests.remove(request);
+
+
+
+        // String accountID = null;
+        // Book bookToCheckout = null;
+        // int index = -1;
+        // for(int i=0; i<Library.requestList.size(); i++){
+        //     if(Library.requestList.get(i)[0] == bookId){
+        //         accountID = Library.requestList.get(i)[1];
+        //         index = i;
+        //     }
+        // }
  
-    //     if (accountID == null) {
-    //         System.out.println("Error: Book with ID " + bookId + " not found in Library.books map");
-    //         return;
-    //     }
-    //     else{
-    //         for(int i=0; i<Library.books.size(); i++){
-    //             if(Library.books.get(i).getId() == bookId){
-    //                 bookToCheckout = Library.books.get(i);
-    //             }
-    //         }
-    //         Library.checkedOutBooks.add(bookToCheckout);
-    //         bookToCheckout.setTakenOut(true);
-    //         Library.requestList.remove(index);
-    //     }
+        // if (accountID == null) {
+        //     System.out.println("Error: Book with ID " + bookId + " not found in Library.books map");
+        //     return;
+        // }
+        // else{
+        //     for(int i=0; i<Library.books.size(); i++){
+        //         if(Library.books.get(i).getId() == bookId){
+        //             bookToCheckout = Library.books.get(i);
+        //         }
+        //     }
+        //     Library.checkedOutBooks.add(bookToCheckout);
+        //     bookToCheckout.setTakenOut(true);
+        //     Library.requestList.remove(index);
+        // }
 
  
-    // }
+    }
 
 }
