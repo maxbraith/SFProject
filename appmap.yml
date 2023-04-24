@@ -1,0 +1,6 @@
+name: comp345-proj02-group4
+packages:
+  - path: Library
+    shallow: true
+language: java
+appmap_dir: target/appmap
