@@ -16,7 +16,7 @@ import Library.Library;
 
 public class librarian extends parentUser{
 
-    public librarian(String id, String email, String passwordHash, int grade, String name, String accountType, String salt){
+    public librarian(String id, String email, String passwordHash, int grade, String name, String accountType, String salt,String secretQuestion,String secretAns){
 
         this.id = id;
         this.email = email;
@@ -25,6 +25,27 @@ public class librarian extends parentUser{
         this.name =name;
         this.accountType = accountType;
         this.salt = salt;
+        this.secretQuestion = secretQuestion;
+        this.secretAns = secretAns;
+    }
+
+    /**
+     * The function takes an ArrayList of books and a specific book, and sets its return date, take out
+     * status, and borrower information to null or false.
+     * 
+     * @param books An ArrayList of Book objects representing the collection of books in a library or a
+     * bookstore.
+     * @param book The specific Book object that is being returned and needs to have its return date,
+     * take out status, and borrower information updated in the ArrayList of books.
+     */
+    public void bookReturn(ArrayList<Book> books, Book book){
+        for(Book curBook : books){
+            if(curBook.getId().equals(book.getId())){
+                curBook.setReturnDate(null);
+                curBook.setTakeOutBy("");
+                curBook.setTakenOut(false);
+            }
+        }
     }
     
 
@@ -44,20 +65,20 @@ public class librarian extends parentUser{
      * @return The method is returning an instance of the parentUser class, which can be either a
      * student, faculty, or librarian object depending on the value of the accType parameter.
      */
-    public static parentUser makeAccount( String email, String password, int grade, String accType, String name) throws NoSuchAlgorithmException{
+    public static parentUser makeAccount( String email, String password, int grade, String accType, String name,String secretQuestion,String secretAns) throws NoSuchAlgorithmException{
         String uuid = UUID.randomUUID().toString();
         String[] hashSalt = parentUser.passwordHash(password);
 
         if(accType.equals("Student")){
-            student user = new student(uuid, email, hashSalt[0], grade,name,accType, hashSalt[1]);
+            student user = new student(uuid, email, hashSalt[0], grade,name,accType, hashSalt[1],secretQuestion,secretAns);
             return user;
         }
         else if(accType.equals("Faculty")){
-            faculty user = new faculty(uuid,email, hashSalt[0], grade,name,accType, hashSalt[1]);
+            faculty user = new faculty(uuid,email, hashSalt[0], grade,name,accType, hashSalt[1],secretQuestion,secretAns);
             return user;
         }   
         else{
-            librarian user = new librarian(uuid, email, hashSalt[0], grade,name,accType, hashSalt[1]);
+            librarian user = new librarian(uuid, email, hashSalt[0], grade,name,accType, hashSalt[1],secretQuestion,secretAns);
             return user;
         }
         

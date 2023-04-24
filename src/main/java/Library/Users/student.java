@@ -12,7 +12,7 @@ public class student extends parentUser{
 
 
 
-    public student(String id, String email, String passwordHash, int grade, String name, String accountType,String salt){
+    public student(String id, String email, String passwordHash, int grade, String name, String accountType,String salt,String secretQuestion,String secretAns){
 
         this.id = id;
         this.email = email;
@@ -21,6 +21,8 @@ public class student extends parentUser{
         this.name =name;
         this.accountType = accountType;
         this.salt = salt;
+        this.secretQuestion = secretQuestion;
+        this.secretAns = secretAns;
     }
 
 

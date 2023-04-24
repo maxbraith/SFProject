@@ -298,6 +298,11 @@ public class Library {
             String email = sc.next();
             if(email.equals("back")){run = false; break;}
 
+            if(users.containsKey(email)){
+                System.out.println("User with email - "+email+" already exists!");
+                break;
+            }
+
             System.out.println("Enter Name:");
             String name = sc.next();
             if(name.equals("back")){run = false; break;}
@@ -315,6 +320,13 @@ public class Library {
                 if(password.equals(password2)){passwordLoop=false; break;
                 }else{System.out.println("Password do not match!\nTry again!");}
             }
+            System.out.println("Enter a Secret Question for account recovery:");
+            String secretQuestion = sc.next();
+            if(secretQuestion.equals("back")){run = false; break;}
+
+            System.out.println("Enter a Secret Answer to the question you entered earlier:");
+            String secretAns = sc.next();
+            if(secretAns.equals("back")){run = false; break;}
 
             System.out.println("Select an account type:");
             System.out.println("(1) Student");
@@ -328,7 +340,7 @@ public class Library {
             }
 
             if(accTypSelection == 1){
-                parentUser newAcc =  librarian.makeAccount(email, password, grade,"student", name);
+                parentUser newAcc =  librarian.makeAccount(email, password, grade,"student", name,secretQuestion,secretAns);
                 users.put(email, newAcc);
                 run = false;
                 refreshData();
@@ -336,7 +348,7 @@ public class Library {
                 break;
             }
             if(accTypSelection == 2){
-                parentUser newAcc =  librarian.makeAccount(email, password, grade,"faculty", name);
+                parentUser newAcc =  librarian.makeAccount(email, password, grade,"faculty", name,secretQuestion,secretAns);
                 users.put(email, newAcc);
                 run = false;
                 refreshData();
@@ -344,7 +356,7 @@ public class Library {
                 break;
             }
             if(accTypSelection == 3){
-                parentUser newAcc =  librarian.makeAccount(email, password, grade,"librarian", name);
+                parentUser newAcc =  librarian.makeAccount(email, password, grade,"librarian", name,secretQuestion,secretAns);
                 users.put(email, newAcc);
                 run = false;
                 refreshData();

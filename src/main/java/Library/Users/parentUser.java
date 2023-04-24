@@ -27,12 +27,16 @@ public class parentUser {
     protected String name;
     protected String accountType;
     protected String salt;
+    protected String secretQuestion;
+    protected String secretAns;
+
+
 
     public parentUser(){
 
 
     }
-    public parentUser(String id, String email, String passwordHash, int grade, String name, String accountType, String salt){
+    public parentUser(String id, String email, String passwordHash, int grade, String name, String accountType, String salt,String secretQuestion,String secretAns){
 
         this.id = id;
         this.email = email;
@@ -41,15 +45,17 @@ public class parentUser {
         this.name =name;
         this.accountType = accountType;
         this.salt = salt;
+        this.secretQuestion = secretQuestion;
+        this.secretAns = secretAns;
     }
     public student toStudent(parentUser student){
-        return new student(student.getId(),student.getEmail(),student.getPasswordHash(),student.getGrade(),student.getName(),student.getAccountType(),student.getSalt());
+        return new student(student.getId(),student.getEmail(),student.getPasswordHash(),student.getGrade(),student.getName(),student.getAccountType(),student.getSalt(),student.getSecretQuestion(),student.getSecretAns());
     }
     public faculty toFaculty(parentUser student){
-        return new faculty(student.getId(),student.getEmail(),student.getPasswordHash(),student.getGrade(),student.getName(),student.getAccountType(),student.getSalt());
+        return new faculty(student.getId(),student.getEmail(),student.getPasswordHash(),student.getGrade(),student.getName(),student.getAccountType(),student.getSalt(),student.getSecretQuestion(),student.getSecretAns());
     }
     public librarian toLibrarian(parentUser student){
-        return new librarian(student.getId(),student.getEmail(),student.getPasswordHash(),student.getGrade(),student.getName(),student.getAccountType(),student.getSalt());
+        return new librarian(student.getId(),student.getEmail(),student.getPasswordHash(),student.getGrade(),student.getName(),student.getAccountType(),student.getSalt(),student.getSecretQuestion(),student.getSecretAns());
     }
 
     
@@ -93,6 +99,20 @@ public class parentUser {
         return reqList;
     }
 
+    public String getSecretQuestion() {
+        return this.secretQuestion;
+    }
+    public void setSecretQuestion(String secretQuestion) {
+        this.secretQuestion = secretQuestion;
+    }
+    
+    
+    public String getSecretAns() {
+        return this.secretAns;
+    }
+    public void setSecretAns(String secretAns) {
+        this.secretAns = secretAns;
+    }
     /**
      * The function checks if a given password matches the stored password.
      * 
