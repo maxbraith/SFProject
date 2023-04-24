@@ -36,7 +36,7 @@ public class librarian extends parentUser{
         response = response+"Email :"+this.email+"\n";
         response = response+"Name :"+this.name+"\n";
         response = response+"Account Type :"+this.accountType+"\n";
-        if(this.accountType.equals("Student")){
+        if(this.accountType.equals("student")){
             response = response+"Grade :"+this.grade+"\n";
         }
 
@@ -83,11 +83,11 @@ public class librarian extends parentUser{
         String uuid = UUID.randomUUID().toString();
         String[] hashSalt = parentUser.passwordHash(password);
 
-        if(accType.equals("Student")){
+        if(accType.equals("student")){
             student user = new student(uuid, email, hashSalt[0], grade,name,accType, hashSalt[1],secretQuestion,secretAns);
             return user;
         }
-        else if(accType.equals("Faculty")){
+        else if(accType.equals("faculty")){
             faculty user = new faculty(uuid,email, hashSalt[0], grade,name,accType, hashSalt[1],secretQuestion,secretAns);
             return user;
         }   

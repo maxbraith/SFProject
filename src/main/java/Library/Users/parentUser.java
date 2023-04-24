@@ -101,6 +101,7 @@ public class parentUser {
         for(Request req : requests){
             if(req.getUser().equals(this.id)){
                 reqList.add(req);
+                System.out.println(req.getBookName());
             }
         }
         return reqList;

@@ -55,53 +55,41 @@ public class Library {
     }
 
 
-
-/**
- * This function writes the contents of a JSON file containing book data to a text file.
- */
-    public static void 
-    writeBookstoTxt() throws IOException{        
+    public static void writeData() throws IOException{
+        // write all books 
         JsonUtil.toJsonFile("src\\main\\java\\Library\\Data\\books.json", books);
-    }
 
-/**
- * This function reads a list of books from a JSON file using a JsonUtil class.
- */
-    public static void readBooksFromTxt() throws IOException{
-        books=(ArrayList<Book>) JsonUtil.listFromJsonFile("src\\main\\java\\Library\\Data\\books.json",Book.class);
-    }
-
-
-/**
- * This function writes a list of parentUser objects to a JSON file.
- */
-    public static void writeUserstoTxt() throws IOException{
+        //write all users
         List<parentUser> allUsers = new ArrayList<parentUser>(users.values());
         JsonUtil.toJsonFile("src\\main\\java\\Library\\Data\\usersData.json", allUsers);
+
+        // write all requests 
+        JsonUtil.toJsonFile("src\\main\\java\\Library\\Data\\requests.json", requests);
+
+        // write all assignments 
+        JsonUtil.toJsonFile("src\\main\\java\\Library\\Data\\assignments.json", assignments);
+        
     }
 
-    /**
-     * This function reads user data from a JSON file and populates a HashMap with the user objects.
-     */
-    public static void readUsersFromTxt() throws IOException, NoSuchAlgorithmException{
+    public static void readData() throws IOException{
+        // read books
+        books=(ArrayList<Book>) JsonUtil.listFromJsonFile("src\\main\\java\\Library\\Data\\books.json",Book.class);
 
+        // read users
         ArrayList<parentUser> tempUsers=(ArrayList<parentUser>) JsonUtil.listFromJsonFile("src\\main\\java\\Library\\Data\\usersData.json",parentUser.class);
         for(parentUser user : tempUsers){
-            // System.out.println(user.getAccountType());
-            if(user.getAccountType().equals("student")){
-                student temp =  user.toStudent(user);
-                users.put(temp.getEmail(), temp);
-            }
-            if(user.getAccountType().equals("faculty")){
-                faculty temp = user.toFaculty(user);
-                users.put(temp.getEmail(), temp);
-            }
-            if(user.getAccountType().equals("librarian")){
-                librarian temp = user.toLibrarian(user);
-                users.put(temp.getEmail(), temp);
-            }
+            users.put(user.getEmail(), user);
         }
+
+        // read requests
+        requests=(ArrayList<Request>) JsonUtil.listFromJsonFile("src\\main\\java\\Library\\Data\\requests.json",Request.class);
+
+        // read requests
+        assignments=(ArrayList<Assignment>) JsonUtil.listFromJsonFile("src\\main\\java\\Library\\Data\\assignments.json",Assignment.class);
     }
+
+/**
+
 
 
 
@@ -113,8 +101,7 @@ public class Library {
      */
     public static void initializer() throws IOException, CsvValidationException, NoSuchAlgorithmException{
         
-        readBooksFromTxt();
-        readUsersFromTxt();
+        readData();
     }
 
     /**
@@ -124,24 +111,22 @@ public class Library {
      */
     public static void deInitializer() throws IOException, CsvValidationException{
         
-        writeBookstoTxt();
-        writeUserstoTxt();
+        writeData();
     }
 
 
-    public static void refreshData() throws IOException, NoSuchAlgorithmException{
-        writeBookstoTxt();
-        writeUserstoTxt();
-        readBooksFromTxt();
-        readUsersFromTxt();
+    public static void refreshData() throws IOException, NoSuchAlgorithmException, CsvValidationException{
+        initializer();
+        deInitializer();
     }
 
     /**
      * @throws NoSuchAlgorithmException
      * @throws IOException
+     * @throws CsvValidationException
      * @post Start the CLI UI loops
      */
-    private static void StartUI() throws NoSuchAlgorithmException, IOException{
+    private static void StartUI() throws NoSuchAlgorithmException, IOException, CsvValidationException{
         Scanner sc = new Scanner(System.in);
         boolean run = true;
 
@@ -218,7 +203,7 @@ public class Library {
 
     }
 
-    private static void logIn(Scanner sc) throws NoSuchAlgorithmException, IOException{
+    private static void logIn(Scanner sc) throws NoSuchAlgorithmException, IOException, CsvValidationException{
         boolean run = true;
 
         while(run){
@@ -257,7 +242,7 @@ public class Library {
 
 
     // Main menu
-    private static void mainMenu(Scanner sc, parentUser currentuser) throws NoSuchAlgorithmException, IOException{
+    private static void mainMenu(Scanner sc, parentUser currentuser) throws NoSuchAlgorithmException, IOException, CsvValidationException{
         boolean run = true;
 
         while(run){
@@ -399,11 +384,75 @@ public class Library {
             if(selection == 1){selectionString ="Title"; }
 
             System.out.println("Enter "+selectionString+" :");
-            String searchByInfo = sc.nextLine();
+            Scanner specialSC = new Scanner(System.in);
+            String searchByInfo = specialSC.nextLine();
             
+            ArrayList<Book> curBookSelections = new ArrayList<Book>();
+            for(Book book: books){
+                if(selection == 3 && book.getIsbn().contains(searchByInfo)){curBookSelections.add(book); }
+                if(selection == 2 && book.getAuthor().contains(searchByInfo)){curBookSelections.add(book); }
+                if(selection == 1 && book.getTitle().contains(searchByInfo)){curBookSelections.add(book); }
+            }
+            boolean run2 = true;
+            while(run2){
+                System.out.println("********************************");
+                System.out.println("Index No.\t Title\t Author\t ISBN\t Available ");
+                int count = 0;
+                for(Book book : curBookSelections){
+                    String temp = "";
+                    if(book.getTakenOut()){
+                        temp = "No";
+                    }else{
+                        temp ="Yes";
+                    }
+                    System.out.println("("+String.valueOf(++count)+")\t "+book.getTitle()+"\t"+ book.getAuthor()+"\t"+ book.getIsbn()+"\t"+temp);
+                }
+                System.out.println("********************************");
+                System.out.println("Enter \"back\" to go back at any point.");
+                System.out.println("Enter a book index number to select a book:");
+                String bookInd = sc.next();
+                int bookIndInt = 0;
+                if(bookInd.equals("back")){run2=false;run=false; break;}
+                else{
+                    try{
+                        bookIndInt = Integer.parseInt(bookInd);
+                    }catch(Exception e){
+                        System.out.println("Could not parser the book index number!");
+                        continue;
+                    }
+                }
+                if(bookIndInt == 0){
+                    System.out.println("Index number out of range!");
+                    continue;
+                }
+                if(currentuser.getAccountType().equals("student")){
+                    System.out.println("********************************");
+                    System.out.println("Select an action");
+                    System.out.println("(1) Request a book");
+                    System.out.println("(2) Go Back");
+                    System.out.println("Enter Selection:");
+                    int actionSelections = sc.nextInt();
+                    
+                    switch(actionSelections){
+                        case 1 :
+                            currentuser.requestBook(curBookSelections.get(bookIndInt-1),requests);
+                            System.out.println("Book Requested!");
+                            run = false;
+                            run2 =  false;
+                            break;
+                        case 2: 
+                            System.out.print("Going back....");
+                            run = false;
+                            run2 =  false;
+                            break;
+                    }
+                }   
+
+            }
 
         }
     }
+
 
     // show requested books 
     public static void showRequestedBooks(parentUser user, Scanner sc){
@@ -521,7 +570,7 @@ public class Library {
     }
 
     // add account 
-    private static void librarian_addAccount(Scanner sc) throws NoSuchAlgorithmException, IOException{
+    private static void librarian_addAccount(Scanner sc) throws NoSuchAlgorithmException, IOException, CsvValidationException{
         boolean run = true;
 
         while(run){
