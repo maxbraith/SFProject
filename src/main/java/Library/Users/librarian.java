@@ -52,7 +52,7 @@ public class librarian extends parentUser{
      * @param book The specific Book object that is being returned and needs to have its return date,
      * take out status, and borrower information updated in the ArrayList of books.
      */
-    public void bookReturn(ArrayList<Book> books, Book book){
+    public static void bookReturn(ArrayList<Book> books, Book book){
         for(Book curBook : books){
             if(curBook.getId().equals(book.getId())){
                 curBook.setReturnDate(null);
@@ -127,16 +127,21 @@ public class librarian extends parentUser{
 
 
 
-    public Book checkOutBook(String bookId, parentUser acc, ArrayList<Book> books){
-        for(int i=0; i<books.size(); i++){
-            Book myBook = books.get(i);
-            if(bookId == myBook.getId()){
-                return myBook;
-            }
-        }
-        return null;
+    public static void checkOutBook(String bookId, parentUser acc, ArrayList<Book> books, ArrayList<Request> requests){
+        
         
     }
+
+    public static ArrayList<Book> viewAllCheckedoutBooks(ArrayList<Book> books){
+        ArrayList<Book> temp = new ArrayList<Book>();
+        for(Book book: books){
+            if(book.getTakenOut()){
+                temp.add(book);
+            }
+        }
+        return temp;
+    }
+
     
     
  

@@ -329,7 +329,7 @@ public class Library {
                 System.out.println("(6) View all checkout books");
                 System.out.println("(7) View all assignments");
                 System.out.println("(8) View requested books");
-                System.out.println("(9) View checked out books");
+                System.out.println("(9) View checked out books for returning");
                 
                 System.out.println("(10) Exit");
                 System.out.println("Enter Number:");
@@ -345,6 +345,13 @@ public class Library {
                         break;
                     case 4:
                         deleteAccount(sc);
+                        break;
+                    case 8:
+                        
+
+                        break;
+                    case 9 :
+                        viewCheckoutBooks(currentuser,sc);
                         break;
                     case 10 :
                         run = false;
@@ -363,6 +370,9 @@ public class Library {
 
     
 
+
+
+    
 
 
     // all account options
@@ -600,7 +610,7 @@ public class Library {
             }
             while(true){
                 System.out.println("Enter \"back\" to go back at any point.");
-                System.out.println("Enter the index number of the request to delete:");
+                System.out.println("Enter the index number of the assignment to delete:");
                 String index = sc.next();
                 if(index.equals("back")){break;}
                 faculty.deleteAssignments(assignments, allAssignments.get(Integer.valueOf(index)-1));
@@ -627,6 +637,61 @@ public class Library {
 
 
     // librarian options
+
+    // view request books to approve checkout
+    private static void viewRequestedBooks(parentUser currentuser, Scanner sc){
+
+        System.out.println("Requests");
+        System.out.println("Ind#\t Requested By\t Book Title");
+        int count=0;
+        for(Request req : requests){
+            parentUser tempUser = new parentUser();
+            for(parentUser user : users.values()){
+                if(user.getId().equals(req.getUser())){
+                    tempUser = user;
+                }
+            }
+            System.out.println("("+String.valueOf(++count)+")\t"+ tempUser.getName()+"\t"+req.getBookName());
+        }
+        while(true){
+            System.out.println("Enter \"back\" to go back at any point.");
+            System.out.println("Enter the index number of the request to approve checkout:");
+            String index = sc.next();
+            if(index.equals("back")){break;}
+            
+            
+            System.out.println("Book Returned successfully!");
+            break;
+        }  
+
+
+    }
+    
+    //view Checkout Books to return book
+    private static void viewCheckoutBooks(parentUser currentuser, Scanner sc) {
+        ArrayList<Book> allCheckedoutBooks = librarian.viewAllCheckedoutBooks(books);
+        int counter =0;
+        System.out.println("Ind#\t taken by\t Book Title");
+        for(Book book : allCheckedoutBooks){
+            parentUser tempUser = new parentUser();
+            for(parentUser user : users.values()){
+                if(user.getId().equals(book.getTakeOutBy())){
+                    tempUser = user;
+                }
+            }
+            System.out.println("("+String.valueOf(++counter)+")\t"+ tempUser.getName()+"\t"+book.getTitle());
+        }
+        while(true){
+            System.out.println("Enter \"back\" to go back at any point.");
+            System.out.println("Enter the index number of the book to return:");
+            String index = sc.next();
+            if(index.equals("back")){break;}
+            librarian.bookReturn(books, allCheckedoutBooks.get(Integer.valueOf(index)-1));
+            System.out.println("Book Returned successfully!");
+            break;
+        }  
+
+    }
 
     // delete account 
     private static void deleteAccount(Scanner sc){
