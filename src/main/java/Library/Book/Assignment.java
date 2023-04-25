@@ -10,6 +10,14 @@ public class Assignment {
     String book;
     int noCopies;
 
+public int getNoCopies() {
+	return this.noCopies;
+}
+public void setNoCopies(int noCopies) {
+	this.noCopies = noCopies;
+}
+
+
     public Assignment(){}
 
     public Assignment(parentUser assignedBy,parentUser assignedStudent,Book book){

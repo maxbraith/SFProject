@@ -21,7 +21,7 @@ public class faculty extends parentUser {
         this.secretQuestion = secretQuestion;
         this.secretAns = secretAns;
     }
-    public boolean checkNoCopiesAvaliable(ArrayList<Book> books, Book book, int noCopies){
+    public static boolean checkNoCopiesAvaliable(ArrayList<Book> books, Book book, int noCopies){
         int counter = 0;
         for(Book curBook: books){
             if(!curBook.getTakenOut() && curBook.getId().equals(book.getId())){
@@ -36,21 +36,34 @@ public class faculty extends parentUser {
         
     }
 
-    public boolean assignBooks(String grade,ArrayList<Assignment> assignments,Book book,int noCopies,ArrayList<Book> books){
+    public static boolean assignBooks(parentUser faculty,String grade,ArrayList<Assignment> assignments,Book book,int noCopies,ArrayList<Book> books){
         if(checkNoCopiesAvaliable(books,book,noCopies)){
-            assignments.add(new Assignment(this,grade,book,noCopies)) ;
+            assignments.add(new Assignment(faculty,grade,book,noCopies)) ;
             return true;
         }else{
             return false;
         }
     }
-    public boolean assignBooks(parentUser student,ArrayList<Assignment> assignments,Book book,ArrayList<Book> books){
+    public static boolean assignBooks(parentUser faculty,parentUser student,ArrayList<Assignment> assignments,Book book,ArrayList<Book> books){
         if(checkNoCopiesAvaliable(books,book,1)){
-            assignments.add(new Assignment(this,student,book)) ;
+            assignments.add(new Assignment(faculty,student,book)) ;
             return true;
         }else{
             return false;
         }
+    }
+
+    public static ArrayList<Assignment> viewAllAssignments(ArrayList<Assignment> assignments, parentUser curUser){
+        ArrayList<Assignment> temp = new ArrayList<Assignment>();
+        for(Assignment assignment : assignments){
+            if(assignment.getAssignedBy().equals(curUser.getId())){
+                temp.add(assignment);
+            }
+        }
+        return temp;
+    }
+    public static void deleteAssignments(ArrayList<Assignment> assignments, Assignment assignmentToBeRemoved){
+        assignments.remove(assignmentToBeRemoved);
     }
     
     

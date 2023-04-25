@@ -121,7 +121,7 @@ public class parentUser {
         return reqList;
     }
 
-    public void deleteAssignments(ArrayList<Assignment> assignments, Assignment assignmentToRemove){
+    public static void deleteAssignments(ArrayList<Assignment> assignments, Assignment assignmentToRemove){
         assignments.remove(assignmentToRemove);
     }
 

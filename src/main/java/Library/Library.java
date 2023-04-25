@@ -286,7 +286,7 @@ public class Library {
             }
             // faculty main menu 
             if(currentuser.getAccountType().equals("faculty")){
-                System.out.println("(1) Search Book");
+                System.out.println("(1) Search Book (to request book or to assign book or to just browse)");
                 System.out.println("(2) View All assignments");
                 System.out.println("(3) View requested books");
                 System.out.println("(4) View checked out books");
@@ -296,9 +296,11 @@ public class Library {
 
                 switch(input){
                     case 1 :
+                        searchBook(currentuser, sc);
                         break;
 
                     case 2:
+                        facultyAssignmentView(currentuser, sc);
                         break;
 
                     case 3:
@@ -396,7 +398,7 @@ public class Library {
             boolean run2 = true;
             while(run2){
                 System.out.println("********************************");
-                System.out.println("Index No.\t Title\t Author\t ISBN\t Available ");
+                System.out.println("Ind#\t Avail\t\tTitle ");
                 int count = 0;
                 for(Book book : curBookSelections){
                     String temp = "";
@@ -405,7 +407,7 @@ public class Library {
                     }else{
                         temp ="Yes";
                     }
-                    System.out.println("("+String.valueOf(++count)+")\t "+book.getTitle()+"\t"+ book.getAuthor()+"\t"+ book.getIsbn()+"\t"+temp);
+                    System.out.println("("+String.valueOf(++count)+")\t "+ temp+"\t\t"+book.getTitle());
                 }
                 System.out.println("********************************");
                 System.out.println("Enter \"back\" to go back at any point.");
@@ -425,6 +427,7 @@ public class Library {
                     System.out.println("Index number out of range!");
                     continue;
                 }
+                // student options
                 if(currentuser.getAccountType().equals("student")){
                     System.out.println("********************************");
                     System.out.println("Select an action");
@@ -446,7 +449,83 @@ public class Library {
                             run2 =  false;
                             break;
                     }
-                }   
+                }  
+
+                // faculty options
+                if(currentuser.getAccountType().equals("faculty")){
+                    System.out.println("********************************");
+                    System.out.println("Select an action");
+                    System.out.println("(1) Request a book");
+                    System.out.println("(2) Assign book to student");
+                    System.out.println("(3) Assign book to grade");
+                    System.out.println("(4) Go Back");
+                    System.out.println("Enter Selection:");
+                    int actionSelections = sc.nextInt();
+                    
+                    switch(actionSelections){
+                        case 1 :
+                            currentuser.requestBook(curBookSelections.get(bookIndInt-1),requests);
+                            System.out.println("Book Requested!");
+                            run = false;
+                            run2 =  false;
+                            break;
+
+                        case 2:
+                            System.out.println("Enter \"back\" to go back.");
+                            System.out.println("Enter the email of the student:");
+                            String email = sc.next();
+                            if(email.equals("back")){
+                                run = false;
+                                run2 =  false;
+                                break;}
+                            parentUser studentUser = users.get(email);
+                            if(studentUser == null){
+                                System.out.println("Student account not found!");
+                            }else{
+                                boolean status = faculty.assignBooks(currentuser, studentUser, assignments, curBookSelections.get(bookIndInt-1), curBookSelections);
+                                if(status){
+                                    System.out.println("("+curBookSelections.get(bookIndInt-1).getTitle()+") Has been assigned to "+ studentUser.getName());
+                                }else{
+                                    System.out.println("Book it not available to request!");
+                                    System.out.println("Try again later...");
+                                }
+                            }
+                            break;
+                        case 3:
+                            System.out.println("Enter \"back\" to go back.");
+                            System.out.println("Enter the grade:");
+                            String grade = sc.next();
+
+                            boolean checkGradeExists = true;
+                            for(parentUser temp : users.values()){
+                                if(String.valueOf(temp.getGrade()).equals(grade)){
+                                    checkGradeExists=false;
+                                }
+                            }
+                            System.out.println("Enter the number of copies to be assigned to the grade!");
+                            int NOcopies= sc.nextInt();
+                            if( checkGradeExists){
+                                System.out.println("Student accounts with the grade ("+grade+") was not found!");
+                            }else{
+                                boolean status = faculty.assignBooks(currentuser,grade, assignments, curBookSelections.get(bookIndInt-1), NOcopies,curBookSelections);
+                                if(status){
+                                    System.out.println("("+curBookSelections.get(bookIndInt-1).getTitle()+") Has been assigned to grade: "+ grade);
+                                }else{
+                                    System.out.println("Book it not available to request!");
+                                    System.out.println("Try again later...");
+                                }
+                            }
+                            break;
+
+
+                        case 4: 
+                            System.out.print("Going back....");
+                            run = false;
+                            run2 =  false;
+                            break;
+                    }
+                }  
+
 
             }
 
@@ -473,6 +552,7 @@ public class Library {
             String index = sc.next();
             if(index.equals("back")){break;}
             user.deleteRequest(userRequests, userRequests.get(Integer.parseInt(index)));
+            System.out.println("Request deleted successfully!");
         }
     }
 
@@ -491,6 +571,43 @@ public class Library {
     }
 
 
+    // faculty options
+    // faculty Assignment View
+    public static void facultyAssignmentView(parentUser curuser, Scanner sc){
+        ArrayList<Assignment> allAssignments = faculty.viewAllAssignments(assignments, curuser);
+        System.out.println("All assignments made by you:");
+
+        if(allAssignments.size()<=0){
+            System.out.println("Your request list is empty!");
+
+        }else{
+            int count =1;
+            for(Assignment assign :allAssignments){
+                    // get the book
+                    Book tempBook = new Book();
+                    for(Book temp : books){
+                        if(temp.getId().equals(assign.getBook())){
+                            tempBook = temp;
+                        }
+                    }
+
+
+                if(assign.isAssignedToStudent()){
+                    System.out.println("("+String.valueOf(count++) +")\t "+assign.getAssignedTo()+"\t"+ tempBook.getTitle() +"\t x"+assign.getNoCopies()); 
+                }else{
+                    System.out.println("("+String.valueOf(count++) +")\t Grade:"+assign.getAssignedTo()+"\t"+ tempBook.getTitle() +"\t x"+assign.getNoCopies()); 
+                }
+            }
+            while(true){
+                System.out.println("Enter \"back\" to go back at any point.");
+                System.out.println("Enter the index number of the request to delete:");
+                String index = sc.next();
+                if(index.equals("back")){break;}
+                faculty.deleteAssignments(assignments, allAssignments.get(Integer.valueOf(index)-1));
+                System.out.println("Assignment deleted successfully!");
+            }   
+        }
+    }
 
     // student options
     public static void showAssignedBooks(parentUser user){
