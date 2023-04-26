@@ -127,8 +127,19 @@ public class librarian extends parentUser{
 
 
 
-    public static void checkOutBook(String bookId, parentUser acc, ArrayList<Book> books, ArrayList<Request> requests){
-        
+    public static Boolean checkOutBook(String bookId, String checkedOutBy, ArrayList<Book> books){
+        LocalDate returnDate =  LocalDate.now().plusDays(14);
+        for(Book book : books){
+            if(bookId.equals(book.getId())){
+                if(!book.getTakenOut()){
+                    book.setReturnDate(returnDate);
+                    book.setTakenOut(true);
+                    book.setTakeOutBy(checkedOutBy);
+                    return true;
+                }
+            }
+        }
+        return false;
         
     }
 
@@ -152,26 +163,14 @@ public class librarian extends parentUser{
      * NOTE: Does not have a handler for if key does not exist
      */
 
-    // NEED TO BE REWORKED 
+    public static boolean confirmRequestCheckout(Request request,ArrayList<Book> books, ArrayList<Request> requests){
 
-    public void confirmRequestCheckout(Request request,ArrayList<Book> books, ArrayList<Request> requests){
-
-
-        LocalDate returnDate =  LocalDate.now().plusDays(14);
-
-        for(Book book : books){
-            if(request.getBook().equals(book.getId())){
-                if(!book.getTakenOut()){
-                    book.setReturnDate(returnDate);
-                    book.setTakenOut(true);
-                    book.setTakeOutBy(request.getUser());
-                }else{
-                    System.out.println("The book : " +book.getTitle()+" (+"+book.getId()+"+) is currently alreday been checked out!");
-                }
-            }
+        boolean checkOutConfirmation = checkOutBook(request.getBook(),request.getUser(),books);
+        if(checkOutConfirmation){
+            requests.remove(request);
         }
-        requests.remove(request);
 
+        return checkOutConfirmation;
     }
 
 

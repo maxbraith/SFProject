@@ -325,13 +325,12 @@ public class Library {
                 System.out.println("(2) Add account");
                 System.out.println("(3) Delete Book");
                 System.out.println("(4) Delete account");
-                System.out.println("(5) Approve book checkout request");
-                System.out.println("(6) View all checkout books");
-                System.out.println("(7) View all assignments");
-                System.out.println("(8) View requested books");
-                System.out.println("(9) View checked out books for returning");
+                System.out.println("(5) Search book (to browse collection or, to checkout book)");
+                System.out.println("(6) View all assignments");
+                System.out.println("(7) View requested books");
+                System.out.println("(8) View checked out books for returning");
                 
-                System.out.println("(10) Exit");
+                System.out.println("(9) Exit");
                 System.out.println("Enter Number:");
                 int input = sc.nextInt();
 
@@ -346,14 +345,19 @@ public class Library {
                     case 4:
                         deleteAccount(sc);
                         break;
-                    case 8:
-                        
-
+                    case 5:
+                        searchBook(currentuser, sc);
                         break;
-                    case 9 :
+                    case 6:
+                        viewAssignments();
+                        break;
+                    case 7:
+                        viewRequestedBooks(currentuser,sc);
+                        break;
+                    case 8 :
                         viewCheckoutBooks(currentuser,sc);
                         break;
-                    case 10 :
+                    case 9 :
                         run = false;
                         System.out.println("Logging out...");
                         break;
@@ -596,7 +600,7 @@ public class Library {
                     // get the book
                     Book tempBook = new Book();
                     for(Book temp : books){
-                        if(temp.getId().equals(assign.getBook())){
+                        if(temp.getId().equals(assign.getBookName())){
                             tempBook = temp;
                         }
                     }
@@ -638,12 +642,49 @@ public class Library {
 
     // librarian options
 
+    // show all the assignments 
+    public static void viewAssignments(){
+  
+        if(assignments.size()<=0){
+            System.out.println("No assignments!");
+
+        }else{
+            int count =0;
+            System.out.println("Ind#\t assigned by\t assigned to\t Book Title");
+            for(Assignment curAssigment : assignments){
+                parentUser asBy = new parentUser();
+                parentUser asTo = new parentUser();
+                for(parentUser user : users.values()){
+                    if(user.getId().equals(curAssigment.getAssignedBy())){
+                        asBy = user;
+                    }
+                    if(user.getId().equals(curAssigment.getAssignedTo())){
+                        asTo = user;
+                    }
+
+                }
+                
+                if(curAssigment.isAssignedToStudent()){
+                    System.out.println(
+                        "("+String.valueOf(++count)+")\t"+asBy.getName()+"\t"+asTo.getName()+"\t"+curAssigment.getBookName()
+                    );
+                }else{
+                    System.out.println(
+                        "("+String.valueOf(++count)+")\t"+asBy.getName()+"\t"+"Grade("+curAssigment.getAssignedTo()+")\t"+curAssigment.getBookName()
+                    );
+                }
+            }
+        }
+
+    }
+
     // view request books to approve checkout
     private static void viewRequestedBooks(parentUser currentuser, Scanner sc){
 
         System.out.println("Requests");
         System.out.println("Ind#\t Requested By\t Book Title");
         int count=0;
+        
         for(Request req : requests){
             parentUser tempUser = new parentUser();
             for(parentUser user : users.values()){
@@ -658,9 +699,13 @@ public class Library {
             System.out.println("Enter the index number of the request to approve checkout:");
             String index = sc.next();
             if(index.equals("back")){break;}
-            
-            
-            System.out.println("Book Returned successfully!");
+            boolean checkOutConfirmation = librarian.confirmRequestCheckout(requests.get(Integer.parseInt(index)-1), books, requests);
+            if(checkOutConfirmation){
+                System.out.println("Book checked out successfully!");
+            }else{
+                System.out.println("There was a problem checking out the book!");
+                System.out.println("The book might not be available to be checked out.");
+            }
             break;
         }  
 

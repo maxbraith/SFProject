@@ -32,11 +32,11 @@ public class student extends parentUser{
         for(Assignment assignment : assignments){
             if(assignment.isAssignedToStudent()){
                 if(assignment.getAssignedTo().equals(curUser.getId())){
-                    assignedBooks.add(assignment.getBook());
+                    assignedBooks.add(assignment.getBookName());
                 }
             }else{
                 if(assignment.getAssignedTo().equals(curUser.getId())){
-                    assignedBooks.add(assignment.getBook());
+                    assignedBooks.add(assignment.getBookName());
                 }
             }
         }

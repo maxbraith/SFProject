@@ -7,7 +7,10 @@ public class Assignment {
     String assignedStudent;
     String assignedGrade;
     Boolean assignedToStudent;
-    String book;
+    String bookName;
+    String bookID;
+
+
     int noCopies;
 
 public int getNoCopies() {
@@ -23,13 +26,15 @@ public void setNoCopies(int noCopies) {
     public Assignment(parentUser assignedBy,parentUser assignedStudent,Book book){
         this.assignedBy = assignedBy.getId();
         this.assignedStudent = assignedStudent.getId();
-        this.book = book.getTitle();
+        this.bookName = book.getTitle();
         this.assignedToStudent = true;
+        this.bookID = book.getId();
     }
     public Assignment(parentUser assignedBy,String grade,Book book,int noCopies){
         this.assignedBy = assignedBy.getId();
         this.assignedGrade= grade;
-        this.book = book.getTitle();
+        this.bookName = book.getTitle();
+        this.bookID = book.getId();
         this.assignedToStudent = false;
         this.noCopies = noCopies;
     }
@@ -61,13 +66,21 @@ public void setNoCopies(int noCopies) {
         }
     }
 
+    public String getBookName() {
+        return this.bookName;
+    }
+    public void setBookName(String bookName) {
+        this.bookName = bookName;
+    }
+    
+    
+        public String getBookID() {
+            return this.bookID;
+        }
+        public void setBookID(String bookID) {
+            this.bookID = bookID;
+        }
 
-    public String getBook() {
-    	return this.book;
-    }
-    public void setBook(String book) {
-    	this.book = book;
-    }
 
 
 }
