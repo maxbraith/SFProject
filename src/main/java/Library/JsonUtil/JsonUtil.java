@@ -16,6 +16,13 @@ public class JsonUtil {
         return mapper.writeValueAsString( objectToSerialize);
     }
 
+    /**
+     * This function serializes an object to JSON format and writes it to a file with the specified
+     * filename.
+     * 
+     * @param filename The name of the file where the serialized object will be written to.
+     * @param objectToSerialize The object that needs to be serialized and written to a JSON file.
+     */
     public static void toJsonFile(String filename, Object objectToSerialize) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.registerModule(new JavaTimeModule());
