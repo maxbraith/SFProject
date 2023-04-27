@@ -41,27 +41,26 @@ Which classes & methods do you need to implement for these use cases?
 SPRINT 2
 ------------------------------------------------------------------------------------------------
 
-Sprint 2 Goal:
+Sprint 2 Goal: Finish the last requiremetns for accounts and library, while updating the UI. 
 
 All Diagrams:
 https://drive.google.com/file/d/1QbeVYMYV4aEcJL1MbtvemgIvg0QWqdm2/view?usp=sharing
 
-Sprint 2 review/demo:
+Sprint 2 review/demo: https://docs.google.com/document/d/1uLxY9oNHTW2YhxjfZyfIVZgcyql2ZA1fGCmpD_EoANs/edit?usp=sharing
 
-Sprint 2 retrospective document link:
+Sprint 2 retrospective document link: https://docs.google.com/document/d/1mSv1E7XOYECBLFxrL6PypqjR2iP0JrZJlgmz4XMlwvE/edit?usp=sharing
 
 Three Use Cases that you will implement first:
-1. -  
-2. -  
-3. -
+1. - Faculty 
+2. - Librarian
+3. - Student
 
 Which classes & methods do you need to implement for these use cases?
 (Indicated which team member is responsible for the implemenation)
-1. - 
-2. - 
-3. - 
-4. - 
-5. << add more as needed >>
+1. - Library
+2. - Faculty(assign books)
+3. - parent user
+4. - json util
 
 
 Don't forget to use Test-Driven Development (TDD)

@@ -1,17 +1,23 @@
 package Users;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import Library.Library;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.security.NoSuchAlgorithmException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import com.opencsv.CSVReaderHeaderAware;
@@ -25,76 +31,61 @@ import Library.Users.parentUser;
 
 
 public class librarianAccoutTest {
-    @Test
-    void getEmailTest(){
-        librarian libAcc = new librarian("1", "a@b.com", "abc123", 5);
-        assertEquals("a@b.com", libAcc.getEmail());
+    ArrayList<Book> books;
+
+    @BeforeEach
+    void setUp() {
+        books = new ArrayList<Book>();
+        books.add(new Book("1", "Title 1", "Author 1", "ISBN 1", false, null));
+        books.add(new Book("2", "Title 2", "Author 2", "ISBN 2", false, null));
     }
 
     @Test
-    void getID(){
-        librarian  libAcc = new librarian("1", "a@b.com", "abc123", 5);
-        assertEquals(1, libAcc.getID());
-    }
-    @Test
-    void accTypeTest(){
-        librarian  libAcc = new librarian("1", "a@b.com", "abc123", 5);
-        assertEquals("Librarian", libAcc.accType());
+    void testBookReturn() {
+        Book book = new Book("1", "Title 1", "Author 1", "ISBN 1", false, null);
+        librarian.bookReturn(books, book);
+        assertFalse(book.getTakenOut());
+        assertEquals("", book.getTakeOutBy());
+        assertNull(book.getReturnDate());
     }
 
     @Test
-    void makeAccountTest(){
-        librarian  libAcc = new librarian("1", "a@b.com", "abc123", 5);
-        student user = (student) libAcc.makeAccount("1", "ebarry@ithaca.edu", "Valley13", 4, "Student");
-        assertEquals("ebarry@ithaca.edu", user.getEmail());
-        
-        parentUser facUser = libAcc.makeAccount("2", "jbarr@ic.edu", "barr", 10, "Faculty");
-        assertEquals("jbarr@ic.edu", facUser.getEmail());
+    void testMakeAccount() throws NoSuchAlgorithmException {
+        parentUser user = librarian.makeAccount("test@example.com", "password", 10, "student", "Test User","What is your favorite color?","Blue");
+        assertEquals("test@example.com", user.getEmail());
+        assertEquals(10, user.getGrade());
+        assertEquals("student", user.getAccountType());
+        assertEquals("Test User", user.getName());
+        assertEquals("What is your favorite color?",user.getSecretQuestion());
+        assertEquals("Blue",user.getSecretAns());
     }
 
-    @Test 
-    void checkOutBookTest() throws IOException, CsvValidationException{
-        librarian  libAcc = new librarian("1", "a@b.com", "abc123", 5);
-        student student = new student("3", "ebarry@ithaca.edu", "Valley13", 4);
-        FileReader file = new FileReader("bookData.csv");
-        CSVReaderHeaderAware reader = new CSVReaderHeaderAware(file);
-        ArrayList<Book> books = new ArrayList<Book>();
-        for(int i=0; i<10; i++){
-            Map<String, String> values = reader.readMap();
-            System.out.println(values.get("title"));
-            String id = "" + i;
-            String title = values.get("title");
-            String author = values.get("author");
-            String x = values.get("isbn");
-            String isbn = x;
-            boolean takenOut = false;
-            LocalDate returnDate = LocalDate.of(2023, 4, 1);;
-            Book myBook = new Book(id, title, author, isbn, takenOut, returnDate);
-            books.add(myBook);
-        }
-
-        Book bookOut = libAcc.checkOutBook("3", libAcc, books);
-        assertEquals("Pride and Prejudice", bookOut.getTitle());
-    }
-  
     @Test
-    void confirmRequestCheckoutTest(){
- 
- 
-        librarian libAcc = new librarian("1", "a@b.com", "abc123", 5);
-        student studentAcc = new student("2", "c@d.com", "def456", 10);
-        Book book = new Book("1", "The Great Gatsby", "F. Scott Fitzgerald", "9780684801520L", false, null);
-        studentAcc.requestBook(book.getId());
-        assertEquals(1, Library.requestList.size());
-        assertEquals(1, libAcc.getRequests().size()); // initial request count
-       
-        libAcc.confirmRequestCheckout(book.getId());
-        //assertEquals(0, libAcc.getRequests().size()); // request count should be 0 after confirmation
-        //assertTrue(book.getTakenOut()); // the book should be marked as taken out
-        //assertEquals(studentAcc, book.getId()); // the account should be set to the student's account
-        //assertEquals(studentAcc.getRequestedBooks().size(), 0); // student's requested book count should be 0
-       
+    void testAddBook() {
+        librarian.addBook(books, "Title 3", "Author 3", "ISBN 3");
+        assertEquals(3, books.size());
+        assertEquals("Title 3", books.get(2).getTitle());
+        assertEquals("Author 3", books.get(2).getAuthor());
+        assertEquals("ISBN 3", books.get(2).getIsbn());
+        assertFalse(books.get(2).getTakenOut());
+        assertNull(books.get(2).getReturnDate());
     }
- 
 
+    @Test
+    void testDeleteBook() {
+        Book bookToRemove = books.get(0);
+        librarian.deleteBoo(books, bookToRemove);
+        assertEquals(1, books.size());
+        assertFalse(books.contains(bookToRemove));
+    }
+
+    @Test
+    void testCheckOutBook() {
+        boolean result = librarian.checkOutBook("1", "User 2", books);
+        assertTrue(result);
+        assertTrue(books.get(0).getTakenOut());
+        assertEquals("User 2", books.get(0).getTakeOutBy());
+        assertNotNull(books.get(0).getReturnDate());
+    }
 }
+ 
