@@ -101,14 +101,13 @@ public class parentUser {
         for(Request req : requests){
             if(req.getUser().equals(this.id)){
                 reqList.add(req);
-                System.out.println(req.getBookName());
             }
         }
         return reqList;
     }
 
-    public void deleteRequest(ArrayList<Request> requests, Request reqToRemove){
-        requests.remove(reqToRemove);
+    public boolean deleteRequest(ArrayList<Request> requests, Request reqToRemove){
+        return requests.remove(reqToRemove);
     }
 
     public ArrayList<Book> getCheckedoutListOfUser(ArrayList<Book> books){

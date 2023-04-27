@@ -266,7 +266,7 @@ public class Library {
                         break;
 
                     case 2:
-                        showAssignedBooks(currentuser);
+                        showAssignedBooks(currentuser,sc);
                         break;
 
                     case 3:
@@ -320,7 +320,7 @@ public class Library {
             }
             // librarian main menu
             if(currentuser.getAccountType().equals("librarian")){
-                currentuser = (librarian)currentuser;
+                currentuser = currentuser;
                 System.out.println("(1) Add Book");
                 System.out.println("(2) Add account");
                 System.out.println("(3) Delete Book");
@@ -549,24 +549,29 @@ public class Library {
 
     // show requested books 
     public static void showRequestedBooks(parentUser user, Scanner sc){
-        ArrayList<Request> userRequests = user.getRequestedListOfUser(requests);
-        if(userRequests.size()<=0){
-            System.out.println("Your request list is empty!");
-
-        }else{
-            int count =1;
-            for(Request req :userRequests){
-                System.out.println("("+String.valueOf(count++) +") "+req.getBookName());
-            }
-        }
-
+    
         while(true){
+            ArrayList<Request> userRequests = user.getRequestedListOfUser(requests);
+            if(userRequests.size()<=0){
+                System.out.println("Your request list is empty!");
+
+            }else{
+                int count =1;
+                for(Request req :userRequests){
+                    System.out.println("("+String.valueOf(count++) +") "+req.getBookName());
+                }
+            }
             System.out.println("Enter \"back\" to go back at any point.");
             System.out.println("Enter the index number of the request to delete:");
             String index = sc.next();
             if(index.equals("back")){break;}
-            user.deleteRequest(userRequests, userRequests.get(Integer.parseInt(index)));
-            System.out.println("Request deleted successfully!");
+            boolean deleteConfirmation = user.deleteRequest(requests, userRequests.get(Integer.parseInt(index)-1));
+            if(deleteConfirmation){
+                System.out.println("Request deleted successfully!");
+            }else{
+                System.out.println("Request was not able to be deleted!");
+            }
+            
         }
     }
 
@@ -624,18 +629,21 @@ public class Library {
     }
 
     // student options
-    public static void showAssignedBooks(parentUser user){
+    public static void showAssignedBooks(parentUser user, Scanner sc){
   
-        ArrayList<String> userRequests = student.getAssignedBooks(assignments, user);
-        if(userRequests.size()<=0){
+        ArrayList<String> userassignments = student.getAssignedBooks(assignments, user);
+        if(userassignments.size()<=0){
             System.out.println("Your request list is empty!");
 
         }else{
             int count =1;
-            for(String req :userRequests){
-                System.out.println("("+String.valueOf(count++) +") "+req);
+            for(String Assignment :userassignments){
+                System.out.println("("+String.valueOf(count++) +") "+Assignment);
             }
         }
+        System.out.println("Type anything to go back:");
+        String temp = sc.next();
+
 
     }
 

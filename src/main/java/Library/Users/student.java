@@ -35,7 +35,7 @@ public class student extends parentUser{
                     assignedBooks.add(assignment.getBookName());
                 }
             }else{
-                if(assignment.getAssignedTo().equals(curUser.getId())){
+                if(assignment.getAssignedTo().equals(String.valueOf(curUser.getGrade()))){
                     assignedBooks.add(assignment.getBookName());
                 }
             }

@@ -4,8 +4,7 @@ import Library.Users.parentUser;
 
 public class Assignment {
     String assignedBy;
-    String assignedStudent;
-    String assignedGrade;
+    String assignedTo;
     Boolean assignedToStudent;
     String bookName;
     String bookID;
@@ -13,26 +12,31 @@ public class Assignment {
 
     int noCopies;
 
-public int getNoCopies() {
-	return this.noCopies;
-}
-public void setNoCopies(int noCopies) {
-	this.noCopies = noCopies;
-}
+    public int getNoCopies() {
+        return this.noCopies;
+    }
+    public void setNoCopies(int noCopies) {
+        this.noCopies = noCopies;
+    }
 
-
+    public String getAssignedTo() {
+        return this.assignedTo;
+    }
+    public void setAssignedTo(String assignedTo) {
+        this.assignedTo = assignedTo;
+    }
     public Assignment(){}
 
     public Assignment(parentUser assignedBy,parentUser assignedStudent,Book book){
         this.assignedBy = assignedBy.getId();
-        this.assignedStudent = assignedStudent.getId();
+        this.assignedTo = assignedStudent.getId();
         this.bookName = book.getTitle();
         this.assignedToStudent = true;
         this.bookID = book.getId();
     }
     public Assignment(parentUser assignedBy,String grade,Book book,int noCopies){
         this.assignedBy = assignedBy.getId();
-        this.assignedGrade= grade;
+        this.assignedTo= grade;
         this.bookName = book.getTitle();
         this.bookID = book.getId();
         this.assignedToStudent = false;
@@ -47,24 +51,13 @@ public void setNoCopies(int noCopies) {
     }
 
 
-    public String getAssignedStudent() {
-    	return this.assignedStudent;
-    }
-    public void setAssignedStudent(String assignedStudent) {
-    	this.assignedStudent = assignedStudent;
-    }
+
 
     public Boolean isAssignedToStudent(){
         return this.assignedToStudent;
     }
 
-    public String getAssignedTo(){
-        if(this.assignedToStudent){
-            return this.assignedStudent;
-        }else{
-            return this.assignedGrade;
-        }
-    }
+
 
     public String getBookName() {
         return this.bookName;
