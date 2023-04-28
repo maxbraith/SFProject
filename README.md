@@ -48,7 +48,7 @@ https://drive.google.com/file/d/1QbeVYMYV4aEcJL1MbtvemgIvg0QWqdm2/view?usp=shari
 
 Sprint 2 review/demo: https://docs.google.com/document/d/1uLxY9oNHTW2YhxjfZyfIVZgcyql2ZA1fGCmpD_EoANs/edit?usp=sharing
 
-Sprint 2 retrospective document link: https://docs.google.com/document/d/1mSv1E7XOYECBLFxrL6PypqjR2iP0JrZJlgmz4XMlwvE/edit?usp=sharing
+Sprint 2 retrospective document link: https://docs.google.com/document/d/1_CXFzllHVSYCCUTEEWqNIQecPJ5EXx0kt2yUrG5zFf4/edit?usp=sharing
 
 Three Use Cases that you will implement first:
 1. - Faculty 
