@@ -57,10 +57,10 @@ Three Use Cases that you will implement first:
 
 Which classes & methods do you need to implement for these use cases?
 (Indicated which team member is responsible for the implemenation)
-1. - Library
-2. - Faculty(assign books)
-3. - parent user
-4. - json util
+1. - Library - Yash
+2. - Faculty(assign books) - Emmett
+3. - parent user - Max
+4. - json util - Joe
 
 
 Don't forget to use Test-Driven Development (TDD)
