@@ -63,6 +63,12 @@ Which classes & methods do you need to implement for these use cases?
 4. - json util - Joe
 
 
+Final Submission: 
+Diagrams: https://drive.google.com/file/d/1QbeVYMYV4aEcJL1MbtvemgIvg0QWqdm2/view?usp=sharing
+Quick Start Guide: 
+ clone the repository and run the main method in src/main/java/Library/Library.java
+
+
 Don't forget to use Test-Driven Development (TDD)
 1. Write Class and Method Function Headers
 2. Write Tests
